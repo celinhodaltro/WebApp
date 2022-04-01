@@ -17,7 +17,30 @@ namespace WebApp.Controllers
         }
 
 
-        private void Entrar(ContaDto usuario)
+        public IActionResult Entrar()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Entrar(ContaDto conta)
+        {
+            return View(conta);
+        }
+
+        public IActionResult Criar()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Criar(ContaDto conta)
+        {
+            return View(conta);
+        }
+
+
+        private void EntrarConta(ContaDto usuario)
         {
             var userClaims = new List<Claim>()
                 {
