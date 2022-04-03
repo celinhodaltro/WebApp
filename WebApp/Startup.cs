@@ -34,8 +34,8 @@ namespace WebApp
                 .AddCookie("CookieAuthentication", config =>
                    {
                        config.Cookie.Name = "UserLoginCookie";
-                       config.LoginPath = "/Acesso";
-                       config.AccessDeniedPath = "/Acesso";
+                       config.LoginPath = "/Login";
+                       config.AccessDeniedPath = "/Login";
                    });
             services.AddScoped<Facade>();
         }
