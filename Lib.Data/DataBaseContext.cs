@@ -9,11 +9,12 @@ namespace Lib.Data
 {
     public class DataBaseContext : DbContext
     {
-
-        public DataBaseContext(DbContextOptions options) : base(options)
+        public string strConnection { get; set; } = "Server=(localdb)\\MSSQLLocalDB;Database=Blazor_Base_ProjectDb;Trusted_Connection=True;MultipleActiveResultSets=true";
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
+            optionsBuilder.UseSqlServer(strConnection);
         }
+
         public DbSet<ContaDal> Contas { get; set; }
 
 

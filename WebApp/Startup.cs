@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FacadeApp;
+using Lib.Application;
 
 namespace WebApp
 {
@@ -27,6 +29,15 @@ namespace WebApp
         {
             services.AddDbContext<DbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllersWithViews();
+
+            services.AddAuthentication("CookieAuthentication")
+                .AddCookie("CookieAuthentication", config =>
+                   {
+                       config.Cookie.Name = "UserLoginCookie";
+                       config.LoginPath = "/Acesso";
+                       config.AccessDeniedPath = "/Acesso";
+                   });
+            services.AddScoped<Facade>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +57,8 @@ namespace WebApp
             app.UseStaticFiles();
 
             app.UseRouting();
+
+
 
             app.UseAuthorization();
 
