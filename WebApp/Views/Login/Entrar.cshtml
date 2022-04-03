@@ -1,15 +1,16 @@
 ﻿<link href="css/login.css" rel="stylesheet" />
 
 <div id="card-login">
+    <form method="post">
+        <h3>Logar</h3>
 
-    <h3>Logar</h3>
+        <label>Login:</label>
+        <input placeholder="Digite o seu Login" />
 
-    <label>Login:</label>
-    <input placeholder="Digite o seu Login" />
+        <label>Senha:</label>
+        <input type="password" placeholder="Digite a sua Senha" />
 
-    <label>Senha:</label>
-    <input type="password" placeholder="Digite a sua Senha" />
-
-    <input type="submit" id="Logar" value="login">
-    <p class="mt-2">Se deseja criar a sua conta, <a href="/Conta/Criar">clique aqui</a> para se registrar!</p>
+        <button type="submit" id="Logar" value="login">login</button>
+    </form>
+    <p class="mt-2">Se deseja criar a sua conta, <a asp-action="Criar" asp-controller="Login">clique aqui</a> para se registrar!</p>
 </div>

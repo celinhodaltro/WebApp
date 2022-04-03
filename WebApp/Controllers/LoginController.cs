@@ -6,11 +6,17 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Lib.Dto;
 using Microsoft.AspNetCore.Authentication;
+using Lib.Application;
 
 namespace WebApp.Controllers
 {
-    public class LoginController : Controller
+    public class LoginController : BaseController
     {
+        public LoginController(Facade facade) : base(facade)
+        {
+        }
+
+
         public IActionResult Index()
         {
             return View();
@@ -30,13 +36,20 @@ namespace WebApp.Controllers
 
         public IActionResult Criar()
         {
-            return View();
+            return View(new NovaContaDto());
         }
 
         [HttpPost]
-        public IActionResult Criar(ContaDto conta)
+        public IActionResult Criar(NovaContaDto novaconta)
         {
-            return View(conta);
+            FacadeApplication.Conta.CriarConta(novaconta);
+            return View();
+        }
+
+        public async Task<IActionResult> Lista()
+        {
+            var contas = await FacadeApplication.Conta.ConsultarTodos();
+            return View(contas);
         }
 
 

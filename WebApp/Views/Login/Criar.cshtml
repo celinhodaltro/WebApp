@@ -1,20 +1,24 @@
-﻿<link rel="stylesheet" href="~/css/site.css" />
+﻿@model Lib.Dto.NovaContaDto
+
+<link href="css/login.css" rel="stylesheet" />
 
 
 <div id="card-login">
-    <h3>Registrar</h3>
-    <label>Login:</label>
-    <input  placeholder="Digite o seu Login" />
+    <form method="post">
+        <h3>Registrar</h3>
+        <label>Login:</label>
+        <input asp-for="Conta" placeholder="Digite o seu Login" />
 
-    <label>Senha:</label>
-    <input type="password"  placeholder="Digite a sua Senha" />
+        <label>Senha:</label>
+        <input asp-for="Senha" type="password" placeholder="Digite a sua Senha" />
 
-    <label>Repita a senha:</label>
-    <input type="password"  placeholder="Repita a senha" />
+        <label>Repita a senha:</label>
+        <input asp-for="SenhaRepetida" type="password" placeholder="Repita a senha" />
 
-    <label>Email:</label>
-    <input type="email" placeholder="Repita a senha" />
+        <label>Email:</label>
+        <input asp-for="Email" type="email" placeholder="Digite o email" />
 
-    <button id="Criar" class="form-control" >Criar Conta </button>
-    <p class="mt-2">Se deseja logar <a href="/Conta">Clique aqui!</a></p>
+        <button type="submit" id="Criar" class="form-control">Criar Conta </button>
+        <p class="mt-2">Se deseja logar <a href="/Conta">Clique aqui!</a></p>
+    </form>
 </div>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lib.Data.Entities
+namespace Lib.Data
 {
     public class BaseDal
     {
