@@ -25,29 +25,34 @@ namespace WebApp.Controllers
 
         public IActionResult Entrar()
         {
+            ViewData["Entrar"] = true;
             return View();
         }
 
         [HttpPost]
         public IActionResult Entrar(ContaDto conta)
         {
-            return View(conta);
+            EntrarConta(conta);
+            return RedirectToAction();
         }
 
         public IActionResult Criar()
         {
+            ViewData["Entrar"] = true;
             return View(new NovaContaDto());
         }
 
         [HttpPost]
         public IActionResult Criar(NovaContaDto novaconta)
         {
+            ViewData["Entrar"] = true;
             FacadeApplication.Conta.CriarConta(novaconta);
             return View();
         }
 
         public async Task<IActionResult> Lista()
         {
+            ViewData["Entrar"] = true;
             var contas = await FacadeApplication.Conta.ConsultarTodos();
             return View(contas);
         }
