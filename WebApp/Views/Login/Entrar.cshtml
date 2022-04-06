@@ -1,14 +1,17 @@
-﻿<link href="/css/login.css" rel="stylesheet" />
+﻿@model Lib.Dto.ContaDto
+
+
+<link href="/css/login.css" rel="stylesheet" />
 
 <div id="card-login">
     <form method="post">
         <h3>Logar</h3>
 
         <label>Login:</label>
-        <input placeholder="Digite o seu Login" />
+        <input asp-for="Conta" placeholder="Digite o seu Login" />
 
         <label>Senha:</label>
-        <input type="password" placeholder="Digite a sua Senha" />
+        <input asp-for="Senha" type="password" placeholder="Digite a sua Senha" />
 
         <button type="submit" id="Logar" value="login">login</button>
     </form>

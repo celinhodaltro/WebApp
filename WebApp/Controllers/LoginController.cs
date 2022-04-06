@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Lib.Dto;
 using Microsoft.AspNetCore.Authentication;
 using Lib.Application;
+using Lib.Data;
 
 namespace WebApp.Controllers
 {
@@ -26,14 +27,18 @@ namespace WebApp.Controllers
         public IActionResult Entrar()
         {
             ViewData["Entrar"] = true;
-            return View();
+
+            return View(new ContaDto());
         }
 
         [HttpPost]
-        public IActionResult Entrar(ContaDto conta)
+        public async Task<IActionResult> Entrar(ContaDto contadto)
         {
-            EntrarConta(conta);
-            return RedirectToAction();
+            var Conta = await FacadeApplication.Conta.ConsultarEntrada(nome: contadto.Conta, senha: contadto.Senha);
+            if (Conta == null)
+                throw new Exception("Conta invalida.");
+            EntrarConta(Conta);
+            return RedirectToAction("Index","Home");
         }
 
         public IActionResult Criar()
@@ -58,7 +63,7 @@ namespace WebApp.Controllers
         }
 
 
-        private void EntrarConta(ContaDto usuario)
+        private void EntrarConta(ContaDal usuario)
         {
             var userClaims = new List<Claim>()
                 {

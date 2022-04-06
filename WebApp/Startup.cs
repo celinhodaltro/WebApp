@@ -31,12 +31,13 @@ namespace WebApp
             services.AddControllersWithViews();
 
             services.AddAuthentication("CookieAuthentication")
-                .AddCookie("CookieAuthentication", config =>
+                   .AddCookie("CookieAuthentication", config =>
                    {
                        config.Cookie.Name = "UserLoginCookie";
                        config.LoginPath = "/Login";
                        config.AccessDeniedPath = "/Login";
                    });
+
             services.AddScoped<Facade>();
         }
 
@@ -58,7 +59,8 @@ namespace WebApp
 
             app.UseRouting();
 
-
+            //Idenfica usuário
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

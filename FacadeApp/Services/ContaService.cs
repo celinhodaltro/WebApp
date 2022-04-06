@@ -27,6 +27,14 @@ namespace FacadeApp.Services
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<ContaDal> ConsultarEntrada(string nome = "", string senha = "")
+        {
+
+            return await AppContext.Contas
+                .Where(tb=> (tb.Conta == nome || tb.Email == nome) && tb.Senha == senha)
+                .FirstOrDefaultAsync();
+        }
+
         public ContaDal Validar(NovaContaDto conta)
         {
             if (conta.Conta.Length <= 3)
