@@ -102,7 +102,7 @@
                         </div>
                     </div>
                     <div class="col py-3">
-                        Content area...
+                        @RenderBody()
                     </div>
                 </div>
             </div>
@@ -110,7 +110,10 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @RenderBody()
+            @if (ViewData["Entrar"] != null)
+            {
+                @RenderBody()
+            }
         </main>
     </div>
 
