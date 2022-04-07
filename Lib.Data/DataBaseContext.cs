@@ -16,6 +16,7 @@ namespace Lib.Data
         }
 
         public DbSet<ContaDal> Contas { get; set; }
+        public DbSet<TarefaDal> Tarefas { get; set; }
 
 
 
