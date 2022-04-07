@@ -1,0 +1,88 @@
+﻿@model Lib.Dto.EconomiaPageDto
+
+
+
+<form method="post">
+    <div class="row">
+        <div class="col-2">
+            <input id="Valor" name="Valor" class="form-control" />
+        </div>
+        <div class="col-5">
+            <select class="custom-select form-control">
+                <option value="0">Nenhua meta</option>
+                @{
+                    foreach (var economiameta in Model.EconomiasMeta)
+                    {
+                        <option value="@economiameta.Id">@economiameta.Nome</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-1">
+            <button asp-action="AdicionarEconomia" asp-controller="Planejamento" class="btn btn-primary form-control"><i class="fa-solid fa-check"></i></button>
+        </div>
+    </div>
+    <div>
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>Valor</th>
+                    <th>Nome da Economia</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+
+                    if (Model != null)
+                        foreach (var economia in Model.Economias)
+                        {
+                            <tr>
+                                <td width="10%">@(economia.Valor)R$</td>
+                                <td width="90%">@economia.NomeEconomiaMeta</td>
+                            </tr>
+                        }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-2">
+            <input id="NomeMeta" name="NomeMeta" class="form-control" />
+        </div>
+        <div class="col-2">
+            <input id="ValorMeta" name="ValorMeta" class="form-control" />
+        </div>
+        <div class="col-1">
+            <button asp-action="AdicionarEconomiaMeta" asp-controller="Planejamento" class="btn btn-primary form-control"><i class="fa-solid fa-check"></i></button>
+        </div>
+    </div>
+    <div>
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>Valor</th>
+                    <th>Nome da Economia</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+
+                    if (Model != null)
+                        foreach (var economia in Model.EconomiasMeta)
+                        {
+                            <tr>
+                                <td width="10%">@(economia.Valor)R$</td>
+                                <td width="90%">@economia.Nome</td>
+                            </tr>
+                        }
+                }
+            </tbody>
+        </table>
+    </div>
+
+</form>

@@ -15,6 +15,9 @@ namespace FacadeApp.Services
         public PlanejamentoService(DataBaseContext item) : base(item) { }
 
 
+
+
+        //Tarefas
         public async Task<List<TarefaDal>> ConsultarTarefas(DateTime dia, int ContaId)
         {
             var tarefas = await AppContext.Tarefas.Where(tb=>tb.Dia == dia && tb.IdConta == ContaId).ToListAsync();
@@ -52,6 +55,41 @@ namespace FacadeApp.Services
             await AppContext.SaveChangesAsync();
         }
 
+        //Economias
+        public async Task<List<EconomiasDal>> ConsultarEconomias(DateTime dia, int ContaId)
+        {
+            var Economias = await AppContext.Economias.Where(tb => tb.Data.Day == dia.Day && tb.IdPessoa == ContaId).ToListAsync();
+            return Economias;
+        }
+
+        public async Task<List<EconomiasMetaDal>> ConsultarEconomiasMetas(int ContaId)
+        {
+            var EconomiasMeta = await AppContext.EconomiasMetas.Where(tb => tb.IdPessoa == ContaId).ToListAsync();
+            return EconomiasMeta;
+        }
+
+
+        public async Task AdicionarEconomia(double Valor, int Id)
+        {
+            if (Valor == 0)
+                throw new Exception("A sua economia deve valer algo!");
+
+
+            await AppContext.Economias.AddAsync(new EconomiasDal { Valor = Valor, IdPessoa = Id, Data = DateTime.Now, IdEconomiaMeta = 0, NomeEconomiaMeta = ""});
+            await AppContext.SaveChangesAsync();
+
+        }
+
+        public async Task AdicionarEconomiaMeta(string nomeMeta, double Valor, int Id)
+        {
+            if (Valor == 0)
+                throw new Exception("A sua economia deve valer algo!");
+
+
+            await AppContext.EconomiasMetas.AddAsync(new EconomiasMetaDal { Valor = Valor, IdPessoa = Id, Nome = nomeMeta });
+            await AppContext.SaveChangesAsync();
+
+        }
 
 
 

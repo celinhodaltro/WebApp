@@ -4,14 +4,16 @@ using Lib.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Lib.Data.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    partial class DataBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220407022231_Adicionado Economias")]
+    partial class AdicionadoEconomias
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,32 +52,8 @@ namespace Lib.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("Data")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("IdEconomiaMeta")
                         .HasColumnType("int");
-
-                    b.Property<int>("IdPessoa")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NomeEconomiaMeta")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Valor")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Economias");
-                });
-
-            modelBuilder.Entity("Lib.Data.EconomiasMetaDal", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
 
                     b.Property<int>("IdPessoa")
                         .HasColumnType("int");
@@ -83,12 +61,12 @@ namespace Lib.Data.Migrations
                     b.Property<string>("Nome")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Valor")
-                        .HasColumnType("float");
+                    b.Property<bool>("Valor")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.ToTable("EconomiasMetas");
+                    b.ToTable("Economias");
                 });
 
             modelBuilder.Entity("Lib.Data.TarefaDal", b =>
