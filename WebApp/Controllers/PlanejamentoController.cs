@@ -66,7 +66,8 @@ namespace WebApp.Controllers
         public async Task<IActionResult> AdicionarEconomia()
         {
             var Valor = Convert.ToDouble(Request.Form["Valor"]);
-            await FacadeApplication.Planejamento.AdicionarEconomia(Valor, Convert.ToInt32(User.Identity.Name));
+            var EconomiaId = Convert.ToInt32(Request.Form["EconomiaId"]);
+            await FacadeApplication.Planejamento.AdicionarEconomia(Valor, Convert.ToInt32(User.Identity.Name), EconomiaId);
             return RedirectToAction("Economias", "Planejamento");
         }
 
@@ -76,6 +77,13 @@ namespace WebApp.Controllers
             var Nome = Convert.ToString(Request.Form["NomeMeta"]);
             var Valor = Convert.ToDouble(Request.Form["ValorMeta"]);
             await FacadeApplication.Planejamento.AdicionarEconomiaMeta(Nome, Valor, Convert.ToInt32(User.Identity.Name));
+            return RedirectToAction("Economias", "Planejamento");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoverEconomia(int Id)
+        {
+            await FacadeApplication.Planejamento.RemoverEconomia(Id);
             return RedirectToAction("Economias", "Planejamento");
         }
 

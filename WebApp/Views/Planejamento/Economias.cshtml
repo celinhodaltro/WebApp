@@ -1,15 +1,63 @@
 ﻿@model Lib.Dto.EconomiaPageDto
-
+@using System;
 
 
 <form method="post">
+
     <div class="row">
+        <div class="col-3">
+            <input id="NomeMeta" name="NomeMeta" placeholder="Nome da Meta" class="form-control" />
+        </div>
         <div class="col-2">
-            <input id="Valor" name="Valor" class="form-control" />
+            <input id="ValorMeta" name="ValorMeta" placeholder="R$" class="form-control" />
+        </div>
+        <div class="col-1">
+            <button asp-action="AdicionarEconomiaMeta" asp-controller="Planejamento" class="btn btn-primary form-control"><i class="fa-solid fa-check"></i></button>
+        </div>
+    </div>
+    <div>
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Valor</th>
+                    <th>Barra de progresso</th>
+                    <th>Valor da Meta</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+
+                    if (Model != null)
+                        foreach (var economia in Model.EconomiasMeta)
+                        {
+                            var Porcentual = Convert.ToString(Math.Ceiling((economia.Valor * 100) / economia.ValorTotal)) + "%";
+                            <tr>
+                                <td>@economia.Nome</td>
+                                <td width="10%">@(economia.Valor)R$</td>
+                                <td width="90%">
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width:@Porcentual" aria-valuenow="@(economia.Valor)" aria-valuemin="0" aria-valuemax="@(economia.ValorTotal)"></div>
+                                    </div>
+                                </td>
+                                <td width="10%">@(economia.ValorTotal)R$</td>
+                            </tr>
+                        }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <hr />
+
+
+    <div class="row mt-3">
+        <div class="col-2">
+            <input id="Valor" name="Valor" placeholder="R$" class="form-control" />
         </div>
         <div class="col-5">
-            <select class="custom-select form-control">
-                <option value="0">Nenhua meta</option>
+            <select name="EconomiaId" id="EconomiaId" class="custom-select form-control">
+                <option value="0">Nenhuma meta</option>
                 @{
                     foreach (var economiameta in Model.EconomiasMeta)
                     {
@@ -40,44 +88,7 @@
                             <tr>
                                 <td width="10%">@(economia.Valor)R$</td>
                                 <td width="90%">@economia.NomeEconomiaMeta</td>
-                            </tr>
-                        }
-                }
-            </tbody>
-        </table>
-    </div>
-
-    <hr />
-
-    <div class="row">
-        <div class="col-2">
-            <input id="NomeMeta" name="NomeMeta" class="form-control" />
-        </div>
-        <div class="col-2">
-            <input id="ValorMeta" name="ValorMeta" class="form-control" />
-        </div>
-        <div class="col-1">
-            <button asp-action="AdicionarEconomiaMeta" asp-controller="Planejamento" class="btn btn-primary form-control"><i class="fa-solid fa-check"></i></button>
-        </div>
-    </div>
-    <div>
-        <table class="table mt-3">
-            <thead>
-                <tr>
-                    <th>Valor</th>
-                    <th>Nome da Economia</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-
-                    if (Model != null)
-                        foreach (var economia in Model.EconomiasMeta)
-                        {
-                            <tr>
-                                <td width="10%">@(economia.Valor)R$</td>
-                                <td width="90%">@economia.Nome</td>
+                                <td width="15%"><button class="btn btn-danger" asp-action="RemoverEconomia" asp-controller="Planejamento" asp-route-id="@economia.Id">X</button></td>
                             </tr>
                         }
                 }

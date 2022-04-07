@@ -69,13 +69,20 @@ namespace FacadeApp.Services
         }
 
 
-        public async Task AdicionarEconomia(double Valor, int Id)
+        public async Task AdicionarEconomia(double Valor, int Id, int economiaId)
         {
             if (Valor == 0)
                 throw new Exception("A sua economia deve valer algo!");
 
+            
+            var economia = await AppContext.EconomiasMetas.Where(tb => tb.Id == economiaId).FirstOrDefaultAsync();
 
-            await AppContext.Economias.AddAsync(new EconomiasDal { Valor = Valor, IdPessoa = Id, Data = DateTime.Now, IdEconomiaMeta = 0, NomeEconomiaMeta = ""});
+            if (economia == null)
+                economia = new EconomiasMetaDal { Id = 0, Nome = "" };
+            else
+                economia.Valor += Valor;
+
+            await AppContext.Economias.AddAsync(new EconomiasDal { Valor = Valor, IdPessoa = Id, Data = DateTime.Now, IdEconomiaMeta = economia.Id, NomeEconomiaMeta = economia.Nome});
             await AppContext.SaveChangesAsync();
 
         }
@@ -86,9 +93,18 @@ namespace FacadeApp.Services
                 throw new Exception("A sua economia deve valer algo!");
 
 
-            await AppContext.EconomiasMetas.AddAsync(new EconomiasMetaDal { Valor = Valor, IdPessoa = Id, Nome = nomeMeta });
+            await AppContext.EconomiasMetas.AddAsync(new EconomiasMetaDal { ValorTotal = Valor, IdPessoa = Id, Nome = nomeMeta });
             await AppContext.SaveChangesAsync();
 
+        }
+
+        public async Task RemoverEconomia(int Id)
+        {
+            var Economia = await AppContext.Economias.Where(tb => tb.Id == Id).FirstOrDefaultAsync();
+            var EconomiaMeta = await AppContext.EconomiasMetas.Where(tb => tb.Id == Economia.IdEconomiaMeta).FirstOrDefaultAsync();
+            EconomiaMeta.Valor -= Economia.Valor;
+            AppContext.Economias.Remove(Economia);
+            await AppContext.SaveChangesAsync();
         }
 
 

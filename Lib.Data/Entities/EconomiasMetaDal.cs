@@ -9,6 +9,7 @@ namespace Lib.Data
     public class EconomiasMetaDal : BaseDal
     {
         public double Valor { get; set; }
+        public double ValorTotal { get; set; }
         public int IdPessoa { get; set; }
         public string Nome { get; set; }
     }
