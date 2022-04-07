@@ -101,8 +101,11 @@ namespace FacadeApp.Services
         public async Task RemoverEconomia(int Id)
         {
             var Economia = await AppContext.Economias.Where(tb => tb.Id == Id).FirstOrDefaultAsync();
-            var EconomiaMeta = await AppContext.EconomiasMetas.Where(tb => tb.Id == Economia.IdEconomiaMeta).FirstOrDefaultAsync();
-            EconomiaMeta.Valor -= Economia.Valor;
+            if (Economia.IdEconomiaMeta != 0)
+            {
+                var EconomiaMeta = await AppContext.EconomiasMetas.Where(tb => tb.Id == Economia.IdEconomiaMeta).FirstOrDefaultAsync();
+                EconomiaMeta.Valor -= Economia.Valor;
+            }
             AppContext.Economias.Remove(Economia);
             await AppContext.SaveChangesAsync();
         }
