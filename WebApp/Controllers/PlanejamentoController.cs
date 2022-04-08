@@ -39,7 +39,8 @@ namespace WebApp.Controllers
         public async Task<IActionResult> AdicionarTarefa()
         {
             var Nome = Convert.ToString(Request.Form["NomeDaTarefa"]);
-            await FacadeApplication.Planejamento.AdicionarTarefa(Nome, Convert.ToInt32(User.Identity.Name));
+            var Hora = Convert.ToDateTime(Request.Form["HoraDaTarefa"]);
+            await FacadeApplication.Planejamento.AdicionarTarefa(Nome, Hora, Convert.ToInt32(User.Identity.Name));
             return RedirectToAction("Tarefas", "Planejamento");
         }
 

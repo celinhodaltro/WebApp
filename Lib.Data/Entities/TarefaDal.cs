@@ -12,5 +12,6 @@ namespace Lib.Data
         public bool Feita { get; set; }
         public int IdConta { get; set; }
         public DateTime Dia { get; set; }
+        public DateTime HoraDeConclusao { get; set; }
     }
 }

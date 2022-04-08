@@ -20,17 +20,17 @@ namespace FacadeApp.Services
         //Tarefas
         public async Task<List<TarefaDal>> ConsultarTarefas(DateTime dia, int ContaId)
         {
-            var tarefas = await AppContext.Tarefas.Where(tb=>tb.Dia == dia && tb.IdConta == ContaId).ToListAsync();
+            var tarefas = await AppContext.Tarefas.Where(tb=>tb.Dia == dia && tb.IdConta == ContaId).OrderBy(tb=>tb.HoraDeConclusao).ToListAsync();
             return tarefas;
         }
 
-        public async Task AdicionarTarefa(string Nome, int Id)
+        public async Task AdicionarTarefa(string Nome, DateTime Horario, int Id)
         {
             if (Nome == "")
                 throw new Exception("A tarefa deve conter pelo menos uma letra!");
 
 
-            await AppContext.AddAsync(new TarefaDal { Dia = DateTime.Today, Feita = false, IdConta = Id, Nome = Nome });
+            await AppContext.AddAsync(new TarefaDal { Dia = DateTime.Today, Feita = false, HoraDeConclusao = Horario, IdConta = Id, Nome = Nome });
             await AppContext.SaveChangesAsync();
 
         }

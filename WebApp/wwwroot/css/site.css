@@ -155,6 +155,7 @@ nav ul li a span {
     position: absolute;
     top: 10%;
     right: 10%;
+    left: 20%;
     color: #202020;
     z-index: -1;
     width: 900px;
