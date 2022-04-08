@@ -19,7 +19,11 @@ namespace WebApp.Controllers
         {
         }
 
-
+        public async Task<IActionResult> Index()
+        {
+            var contas = await FacadeApplication.Conta.ConsultarTodos();
+            return View(contas);
+        }
         public async Task<IActionResult> Cargos()
         {
             var cargos = await FacadeApplication.Cargo.ConsultarTodos();

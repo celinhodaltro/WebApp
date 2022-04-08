@@ -15,7 +15,8 @@ namespace FacadeApp.Services
 
         public async Task<List<ContaDal>> ConsultarTodos()
         {
-            var contas = await AppContext.Contas.ToListAsync();
+            var quantidadeContas = await AppContext.Contas.CountAsync();
+            var contas = await AppContext.Contas.Take(quantidadeContas>=10?10:quantidadeContas).ToListAsync();
             return contas;
         }
 
