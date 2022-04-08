@@ -1,0 +1,49 @@
+﻿@model Lib.Dto.CargoPageDto
+
+
+<form method="post">
+    <h3>Conta - Cargo</h3>
+    <hr />
+    <div class="row mt-3">
+        <div class="col-10">
+            <select name="Cargo" class="custom-select form-control">
+                @{
+                    if (Model.Cargos != null)
+                        foreach (var cargos in Model.Cargos)
+                        {
+                            <option value="@cargos.Id">@cargos.Nome</option>
+                        }
+                }
+            </select>
+        </div>
+        <div class="col-2">
+            <button type="submit" class="form-control btn btn-primary" asp-action="AdicionarContaCargo" asp-controller="PainelAdmin" asp-route-Id="@Model.Id"><i class="fa-solid fa-pen-to-square"></i></button>
+        </div>
+
+    </div>
+
+
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Nivel</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+
+                if (Model.CargosPessoa != null)
+                    foreach (var cargo in Model.CargosPessoa)
+                    {
+                        <tr>
+                            <td width="45%">@cargo.Nome</td>
+                            <td width="45%">@cargo.Nivel</td>
+                            <td width="10%"><button type="submit" class="form-control btn btn-danger" asp-action="RemoverContaCargo" asp-controller="PainelAdmin" asp-route-IdConta="@Model.Id" asp-route-IdCargo="@cargo.Id"><i class="fa-solid fa-xmark"></i></button></td>
+                        </tr>
+                    }
+            }
+        </tbody>
+    </table>
+</form>

@@ -20,6 +20,7 @@ namespace Lib.Data
         public DbSet<EconomiasDal> Economias { get; set; }
         public DbSet<EconomiasMetaDal> EconomiasMetas { get; set; }
         public DbSet<CargoDal> Cargos { get; set; }
+        public DbSet<ContaCargoDal> ContaCargo { get; set; }
 
 
 

@@ -34,7 +34,7 @@
                                     <td width="10%"><input class="form-control" asp-for="@tarefa.Feita" oninput="this.form.submit()" /></td>
                                     <td width="70%">@tarefa.Nome</td>
                                     <td width="20%">@tarefa.HoraDeConclusao.ToString("t")</td>
-                                    <td width="10%"><button class="btn btn-danger" asp-action="RemoverTarefa" asp-controller="Planejamento" asp-route-id="@tarefa.Id">X</button></td>
+                                    <td width="10%"><button class="btn btn-danger" asp-action="RemoverTarefa" asp-controller="Planejamento" asp-route-id="@tarefa.Id"><i class="fa-solid fa-xmark"></i></button></td>
                                 </tr>
                         }
                 }

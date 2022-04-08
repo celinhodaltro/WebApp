@@ -35,6 +35,30 @@ namespace WebApp.Controllers
             var cargo = await FacadeApplication.Cargo.Consultar(id);
             return View(cargo);
         }
+
+        public async Task<IActionResult> AdicionarCargo(int id)
+        {
+            var cargos = new CargoPageDto();
+            cargos.CargosPessoa = await FacadeApplication.ContaCargo.ConsultarCargos(id);
+            cargos.Cargos = await FacadeApplication.Cargo.ConsultarTodos();
+            return View(cargos);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AdicionarContaCargo(int id, string nome)
+        {
+            var idCargo = Convert.ToInt32(Request.Form["Cargo"]);
+            await FacadeApplication.ContaCargo.Adicionar(id, idCargo);
+            return RedirectToAction("AdicionarCargo", "PainelAdmin", new {id = id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoverContaCargo(int idConta, int idCargo)
+        {
+            await FacadeApplication.ContaCargo.Remover(idConta, idCargo);
+            return RedirectToAction("AdicionarCargo", "PainelAdmin", new { id = idConta });
+        }
+
         [HttpPost]
         public async Task<IActionResult> EditarCargo(int id, CargoDal cargodal)
         {
