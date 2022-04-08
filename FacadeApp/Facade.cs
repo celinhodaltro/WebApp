@@ -9,6 +9,7 @@ namespace Lib.Application
         private DataBaseContext __context = null;
         private ContaService __conta = null;
         private PlanejamentoService __planejamento = null;
+        private CargoService __cargo = null;
 
         public Facade()
         {
@@ -52,6 +53,16 @@ namespace Lib.Application
                 if (__planejamento == null)
                     __planejamento = new PlanejamentoService(__context);
                 return __planejamento;
+            }
+        }
+
+        public CargoService Cargo
+        {
+            get
+            {
+                if (__cargo == null)
+                    __cargo = new CargoService(__context);
+                return __cargo;
             }
         }
 
