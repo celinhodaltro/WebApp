@@ -12,5 +12,6 @@ namespace Lib.Data
         public string Senha { get; set; }
         public string Email { get; set; }
         public string DataDeCriacao { get; set; }
+        public bool Admin { get; set; }
     }
 }
