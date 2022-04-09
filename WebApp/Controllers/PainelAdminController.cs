@@ -24,16 +24,12 @@ namespace WebApp.Controllers
             var contas = await FacadeApplication.Conta.ConsultarTodos();
             return View(contas);
         }
+
+        //Cargos
         public async Task<IActionResult> Cargos()
         {
             var cargos = await FacadeApplication.Cargo.ConsultarTodos();
             return View(cargos);
-        }
-
-        public async Task<IActionResult> EditarCargo(int id)
-        {
-            var cargo = await FacadeApplication.Cargo.Consultar(id);
-            return View(cargo);
         }
 
         public async Task<IActionResult> AdicionarCargo(int id)
@@ -58,7 +54,11 @@ namespace WebApp.Controllers
             await FacadeApplication.ContaCargo.Remover(idConta, idCargo);
             return RedirectToAction("AdicionarCargo", "PainelAdmin", new { id = idConta });
         }
-
+        public async Task<IActionResult> EditarCargo(int id)
+        {
+            var cargo = await FacadeApplication.Cargo.Consultar(id);
+            return View(cargo);
+        }
         [HttpPost]
         public async Task<IActionResult> EditarCargo(int id, CargoDal cargodal)
         {
@@ -82,19 +82,36 @@ namespace WebApp.Controllers
             return RedirectToAction("Tarefas", "Planejamento");
         }
 
+
+        //Projetos
         public async Task<IActionResult> Projetos(int Id)
         {
             var projetos = await FacadeApplication.Projeto.ConsultarTodos();
             return View(projetos);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AdicionarProjeto()
+        public IActionResult CriarProjeto()
         {
-            var Nome = Convert.ToString(Request.Form["Nome"]);
-            var Nivel = Convert.ToInt32(Request.Form["Prioridade"]);
-            var Desc = Convert.ToString(Request.Form["Des"]);
-            await FacadeApplication.Projeto.Adicionar(Nome, Nivel, Desc, Convert.ToInt32(User.Identity.Name));
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CriarProjeto(ProjetoDal projeto)
+        {
+            await FacadeApplication.Projeto.Adicionar(projeto, Convert.ToInt32(User.Identity.Name));
+            return RedirectToAction("Projetos", "PainelAdmin");
+        }
+
+        public async Task<IActionResult> EditarProjeto(int id)
+        {
+            var projeto = await FacadeApplication.Projeto.Consultar(id);
+            return View(projeto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditarProjeto(int id, ProjetoDal projeto)
+        {
+            await FacadeApplication.Projeto.Editar(id, projeto);
             return RedirectToAction("Projetos", "PainelAdmin");
         }
 

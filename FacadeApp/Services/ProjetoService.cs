@@ -18,13 +18,28 @@ namespace FacadeApp.Services
             var projetos = await AppContext.Projetos.OrderBy(tb=>tb.Prioridade).ToListAsync();
             return projetos;
         }
-
-        public async Task Adicionar(string nome , int prioridade, string descricao, int idCriador)
+        public async Task<ProjetoDal> Consultar(int id)
         {
-            var verificarprojeto = await AppContext.Projetos.Where(tb => tb.Nome == nome && tb.IdCriador == idCriador).FirstOrDefaultAsync();
+            var projeto = await AppContext.Projetos.Where(tb => tb.Id == id).FirstOrDefaultAsync();
+            return projeto;
+        }
+
+        public async Task Editar(int id, ProjetoDal projetodal)
+        {
+            var projeto = await AppContext.Projetos.Where(tb => tb.Id == id).FirstOrDefaultAsync();
+            projeto.Nome = projetodal.Nome;
+            projeto.Desc = projetodal.Desc;
+            projeto.Prioridade = projetodal.Prioridade;
+            await AppContext.SaveChangesAsync();
+
+        }
+
+        public async Task Adicionar(ProjetoDal projeto, int idCriador)
+        {
+            var verificarprojeto = await AppContext.Projetos.Where(tb => tb.Nome == projeto.Nome).FirstOrDefaultAsync();
             if (verificarprojeto != null)
                 throw new Exception("Este projeto ja existe.");
-            await AppContext.Projetos.AddAsync(new ProjetoDal { Nome = nome, Prioridade = prioridade, Desc = descricao, IdCriador = idCriador });
+            await AppContext.Projetos.AddAsync(new ProjetoDal { Nome = projeto.Nome, Prioridade = projeto.Prioridade, Desc = projeto.Desc, IdCriador = idCriador });
             await AppContext.SaveChangesAsync();
         }
 

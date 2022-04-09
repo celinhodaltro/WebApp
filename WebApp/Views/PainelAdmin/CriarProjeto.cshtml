@@ -1,0 +1,24 @@
+﻿@model Lib.Data.ProjetoDal
+
+
+    <form method="post">
+        <h3 class="text-center">Projetos</h3>
+        <hr />
+        <div class="row mt-2">
+            <div class="col-10">
+                <input asp-for="Nome" placeholder="Digite o nome do projeto" class="form-control" />
+            </div>
+            <div class="col-2">
+                <input asp-for="Prioridade" type="number" placeholder="Prioridade" class="form-control" />
+            </div>
+            <div class="col-12 my-3">
+                <textarea asp-for="Desc" rows="20" placeholder="Digite uma descrição do projeto" class="form-control"> </textarea>
+            </div>
+            <div class="col-12 d-flex justify-content-center">
+                <a class="btn btn-secondary mr-1" asp-action="Projetos" asp-controller="PainelAdmin"><i class="fa-solid fa-arrow-left mr-1"></i>Voltar</a>
+                <button asp-action="CriarProjeto" asp-controller="PainelAdmin" class="btn btn-success"><i class="fa-solid fa-check mr-1"></i>Criar</button>
+
+            </div>
+
+        </div>
+    </form>

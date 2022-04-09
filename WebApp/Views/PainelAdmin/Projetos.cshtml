@@ -1,53 +1,43 @@
 ﻿@model List<Lib.Data.ProjetoDal>
 
 
+<h3>Painel Admin</h3>
 
-<form method="post">
-    <h3 class="mb-3">Projetos</h3>
-    <hr />
-    <div class="row mt-2">
-        <div class="col-8">
-            <input id="Nome" placeholder="Nome do Cargo." name="Nome" class="form-control" />
-        </div>
-        <div class="col-2">
-            <input id="Prioridade" type="number" placeholder="Prioridade" name="Prioridade" class="form-control" />
-        </div>
-        <div class="col-2">
-            <button asp-action="AdicionarProjeto" asp-controller="PainelAdmin" class="btn btn-primary form-control"><i class="fa-solid fa-check"></i></button>
-        </div>
-        <div class="col-12 mt-3">
-            <label>Descrição:</label>
-            <textarea id="Desc" rows="20" placeholder="Descrição." name="Desc" class="form-control"> </textarea>
-        </div>
-
+<hr />
+<div class="row">
+    <div class="col-2">
+        <a asp-action="CriarProjeto" asp-controller="PainelAdmin" class="btn btn-primary form-control">Criar Projeto</a>
     </div>
-    <div>
-        <table class="table mt-3">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Prioridade</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
+</div>
+<hr />
 
-                    if (Model != null)
-                        foreach (var projeto in Model)
-                        {
-                                <tr>
-                                    <td width="70%">@projeto.Nome</td>
-                                    <td width="10%">@projeto.Prioridade</td>
-                                    <td width="6%"><button class="btn btn-secondary" asp-action="DetalhesDoProjeto" asp-controller="Planejamento" asp-route-id="@projeto.Id"><i class="fa-solid fa-circle-info"></i></button></td>
-                                    <td width="6%"><button class="btn btn-danger " asp-action="RemoverProjeto" asp-controller="Planejamento" asp-route-id="@projeto.Id"><i class="fa-solid fa-xmark"></i></button></td>
-                                    <td width="6%"><button class="btn btn-primary" asp-action="RemoverProjeto" asp-controller="Planejamento" asp-route-id="@projeto.Id"><i class="fa-solid fa-arrow-right"></i></button></td>
-                                </tr>
-                        }
-                }
-            </tbody>
-        </table>
-    </div>
-</form>
+<div>
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Prioridade</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+
+                if (Model != null)
+                    foreach (var projeto in Model)
+                    {
+                        <tr>
+                            <td width="70%">@projeto.Nome</td>
+                            <td width="10%">@projeto.Prioridade</td>
+                            <td width="6%"><a class="btn btn-secondary" asp-action="EditarProjeto" asp-controller="PainelAdmin" asp-route-id="@projeto.Id"><i class="fa-solid fa-circle-info"></i></a></td>
+                            <td width="6%"><a class="btn btn-danger " asp-action="RemoverProjeto" asp-controller="Planejamento" asp-route-id="@projeto.Id"><i class="fa-solid fa-xmark"></i></a></td>
+                            <td width="6%"><a class="btn btn-primary" asp-action="Chamados" asp-controller="Planejamento" asp-route-id="@projeto.Id"><i class="fa-solid fa-arrow-right"></i></a></td>
+                        </tr>
+                    }
+            }
+        </tbody>
+    </table>
+</div>
+
