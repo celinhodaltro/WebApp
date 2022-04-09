@@ -33,6 +33,10 @@ body {
         content: '\f00d'
     }
 
+.btn-primary {
+    background-color:#1b1b1b !important;
+}
+
 .sidebar {
     position: fixed;
     width: 250px;
