@@ -35,7 +35,7 @@
                                 <td width="60%">@cargo.Nome</td>
                                 <td width="20%">@cargo.Nivel</td>
                                 <td width="10%"><button class="btn btn-primary" asp-action="EditarCargo" asp-controller="PainelAdmin" asp-route-id="@cargo.Id" formmethod="get"><i class="fa-solid fa-pen-to-square"></i></button></td>
-                                <td width="10%"><button class="btn btn-danger" asp-action="RemoverCargo" asp-controller="PainelAdmin" asp-route-id="@cargo.Id">X</button></td>
+                                <td width="10%"><button class="btn btn-danger" asp-action="RemoverCargo" asp-controller="PainelAdmin" asp-route-id="@cargo.Id"><i class="fa-solid fa-xmark"></i></button></td>
                             </tr>
                         }
                 }

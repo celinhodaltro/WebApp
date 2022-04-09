@@ -11,5 +11,6 @@ namespace Lib.Data
         public string Nome { get; set; }
         public string Desc { get; set; }
         public int Prioridade { get; set; }
+        public int IdCriador { get; set; }
     }
 }

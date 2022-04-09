@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lib.Data
 {
-    public class ContaProjetoDal : BaseDal
+    public class ProjetoContaDal : BaseDal
     {
         public int IdConta { get; set; }
         public int IdProjeto { get; set; }

@@ -82,6 +82,23 @@ namespace WebApp.Controllers
             return RedirectToAction("Tarefas", "Planejamento");
         }
 
+        public async Task<IActionResult> Projetos(int Id)
+        {
+            var projetos = await FacadeApplication.Projeto.ConsultarTodos();
+            return View(projetos);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AdicionarProjeto()
+        {
+            var Nome = Convert.ToString(Request.Form["Nome"]);
+            var Nivel = Convert.ToInt32(Request.Form["Prioridade"]);
+            var Desc = Convert.ToString(Request.Form["Des"]);
+            await FacadeApplication.Projeto.Adicionar(Nome, Nivel, Desc, Convert.ToInt32(User.Identity.Name));
+            return RedirectToAction("Projetos", "PainelAdmin");
+        }
+
+
 
 
 

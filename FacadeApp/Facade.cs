@@ -11,6 +11,7 @@ namespace Lib.Application
         private PlanejamentoService __planejamento = null;
         private CargoService __cargo = null;
         private ContaCargoService __contacargo = null;
+        private ProjetoService __projeto = null;
 
         public Facade()
         {
@@ -74,6 +75,16 @@ namespace Lib.Application
                 if (__contacargo == null)
                     __contacargo = new ContaCargoService(__context);
                 return __contacargo;
+            }
+        }
+
+        public ProjetoService Projeto
+        {
+            get
+            {
+                if (__projeto == null)
+                    __projeto = new ProjetoService(__context);
+                return __projeto;
             }
         }
 
