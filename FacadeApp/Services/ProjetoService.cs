@@ -24,6 +24,22 @@ namespace FacadeApp.Services
             return projeto;
         }
 
+        public async Task<List<ProjetoDal>> ConsultarProjetosDoUsuario(int id)
+        {
+            var projetoId = await AppContext.ContaProjeto.Where(tb => tb.IdConta == id).Select(tb=>tb.IdProjeto).ToListAsync();
+
+            List<ProjetoDal> Projetos = new List<ProjetoDal>();
+
+            foreach(var obj in projetoId)
+            {
+                var projeto = await AppContext.Projetos.Where(tb => tb.Id == obj).FirstOrDefaultAsync();
+                Projetos.Add(projeto);
+                projeto = null;
+            }
+
+            return Projetos;
+        }
+
         public async Task Editar(int id, ProjetoDal projetodal)
         {
             var projeto = await AppContext.Projetos.Where(tb => tb.Id == id).FirstOrDefaultAsync();

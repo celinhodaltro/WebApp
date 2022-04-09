@@ -1,14 +1,14 @@
 ﻿@model Lib.Dto.CargoPageDto
 
+@{ViewData["Title"] = "Adicionar Cargo";};
+
 
 <form method="post">
-    <h3>Conta - Cargo</h3>
-    <hr />
     <div class="row mt-3">
-        <div class="col-10">
+        <div class="col-11">
             <select name="Cargo" class="custom-select form-control">
                 @{
-                    if (Model.Cargos != null)
+                            if (Model.Cargos != null)
                         foreach (var cargos in Model.Cargos)
                         {
                             <option value="@cargos.Id">@cargos.Nome</option>
@@ -16,8 +16,8 @@
                 }
             </select>
         </div>
-        <div class="col-2">
-            <button type="submit" class="form-control btn btn-primary" asp-action="AdicionarContaCargo" asp-controller="PainelAdmin" asp-route-Id="@Model.Id"><i class="fa-solid fa-pen-to-square"></i></button>
+        <div class="col-1">
+            <button type="submit" class="form-control btn btn-success" asp-action="AdicionarContaCargo" asp-controller="PainelAdmin" asp-route-Id="@Model.IdPessoa"><i class="fa-solid fa-check mr-1"></i></button>
         </div>
 
     </div>
@@ -47,3 +47,4 @@
         </tbody>
     </table>
 </form>
+

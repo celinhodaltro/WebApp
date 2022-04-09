@@ -11,6 +11,6 @@ namespace Lib.Dto
     {
         public List<CargoDal> CargosPessoa { get; set; }
         public List<CargoDal> Cargos { get; set; }
-        public int Id { get; set; }
+        public int IdPessoa { get; set; }
     }
 }

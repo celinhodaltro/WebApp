@@ -37,6 +37,7 @@ namespace WebApp.Controllers
             var cargos = new CargoPageDto();
             cargos.CargosPessoa = await FacadeApplication.ContaCargo.ConsultarCargos(id);
             cargos.Cargos = await FacadeApplication.Cargo.ConsultarTodos();
+            cargos.IdPessoa = id;
             return View(cargos);
         }
 
@@ -115,6 +116,14 @@ namespace WebApp.Controllers
             return RedirectToAction("Projetos", "PainelAdmin");
         }
 
+        public async Task<IActionResult> AtribuirProjeto(int id)
+        {
+            var AtribuirProjetoDto = new AtribuirProjetoDto();
+            AtribuirProjetoDto.Projetos = await FacadeApplication.Projeto.ConsultarTodos();
+            AtribuirProjetoDto.ProjetosUsuario = await FacadeApplication.Projeto.ConsultarProjetosDoUsuario(id);
+
+            return View(AtribuirProjetoDto);
+        }
 
 
 

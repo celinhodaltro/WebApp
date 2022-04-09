@@ -27,11 +27,21 @@
                             <li><a asp-action="Economias" asp-controller="Planejamento"><i class="fa-solid fa-sack-dollar mr-1"></i>Economias</a></li>
                         </ul>
                     </li>
-                    <li><a asp-action="Index" asp-controller="PainelAdmin"><i class="fa-solid fa-hammer mr-1"></i>Painel do Admin</a></li>
+                    <li>
+                        <a href="#" id="2"><i class="fa-solid fa-hammer mr-1"></i>Funções Administrativas<span class="fas fa-caret-down"></span> </a>
+                        <ul class="item-show-2">
+                            <li><a asp-action="Index" asp-controller="PainelAdmin"><i class="fa-solid fa-hammer mr-1"></i>Painel do Admin</a></li>
+                            <li><a asp-action="Cargos" asp-controller="PainelAdmin" ><i class="fa-solid fa-user mr-2"></i>Cargos</a></li>
+                            <li> <a asp-action="Projetos" asp-controller="PainelAdmin" ><i class="fa-solid fa-cube mr-2"></i>Projetos</a></li>
+                        </ul>
+                    </li>
+
                 </ul>
             </nav>
             <div class="content ">
                 <div class="header">
+                    <h3 class="text-center">@ViewData["Title"]</h3>
+                    <hr />
                     @RenderBody()
                 </div>
             </div>

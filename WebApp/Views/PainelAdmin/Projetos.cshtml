@@ -1,10 +1,9 @@
 ﻿@model List<Lib.Data.ProjetoDal>
 
 
-<h3>Painel Admin</h3>
+@{ViewData["Title"] = "Projetos";}
 
-<hr />
-<div class="row">
+<div class="row d-flex justify-content-center">
     <div class="col-2">
         <a asp-action="CriarProjeto" asp-controller="PainelAdmin" class="btn btn-primary form-control">Criar Projeto</a>
     </div>
@@ -31,7 +30,7 @@
                         <tr>
                             <td width="70%">@projeto.Nome</td>
                             <td width="10%">@projeto.Prioridade</td>
-                            <td width="6%"><a class="btn btn-secondary" asp-action="EditarProjeto" asp-controller="PainelAdmin" asp-route-id="@projeto.Id"><i class="fa-solid fa-circle-info"></i></a></td>
+                            <td width="6%"><a class="btn btn-secondary" asp-action="EditarProjeto" asp-controller="PainelAdmin" asp-route-id="@projeto.Id"><i class="fa-solid fa-pen-to-square"></a></td>
                             <td width="6%"><a class="btn btn-danger " asp-action="RemoverProjeto" asp-controller="Planejamento" asp-route-id="@projeto.Id"><i class="fa-solid fa-xmark"></i></a></td>
                             <td width="6%"><a class="btn btn-primary" asp-action="Chamados" asp-controller="Planejamento" asp-route-id="@projeto.Id"><i class="fa-solid fa-arrow-right"></i></a></td>
                         </tr>
