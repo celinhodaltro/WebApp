@@ -1,0 +1,29 @@
+﻿@model List<Lib.Data.ChamadoDal>
+
+@{ViewData["Title"] = "Chamados - Projetos";}
+
+
+<form method="post">
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Prioridade</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+
+                if (Model != null)
+                    foreach (var projetoUsuario in Model)
+                    {
+                        <tr>
+                            <td width="90%">@projetoUsuario.Nome</td>
+                            <td width="10%"><button type="submit" class="form-control btn btn-primary" asp-action="PainelChamadoProjeto" asp-controller="PainelAdmin" asp-route-IdProjeto="@projetoUsuario.Id"><i class="fa-solid fa-arrow-right"></i></button></td>
+                        </tr>
+                    }
+            }
+        </tbody>
+    </table>
+</form>

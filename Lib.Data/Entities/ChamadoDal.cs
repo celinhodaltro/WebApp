@@ -12,6 +12,7 @@ namespace Lib.Data
         public string Desc { get; set; }
         public int Prioridade { get; set; }
         public int IdProjeto { get; set; }
+        public string NomeProjeto { get; set; }
         public int IdStatus { get; set; }
         public int IdTipoChamado { get; set; }
     }
