@@ -35,7 +35,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> AdicionarCargo(int id)
         {
             var cargos = new CargoPageDto();
-            cargos.CargosPessoa = await FacadeApplication.ContaCargo.ConsultarCargos(id);
+            cargos.CargosPessoa = await FacadeApplication.Cargo.ConsultarCargosDoUsuario(id);
             cargos.Cargos = await FacadeApplication.Cargo.ConsultarTodos();
             cargos.IdPessoa = id;
             return View(cargos);
@@ -45,14 +45,14 @@ namespace WebApp.Controllers
         public async Task<IActionResult> AdicionarContaCargo(int id, string nome)
         {
             var idCargo = Convert.ToInt32(Request.Form["Cargo"]);
-            await FacadeApplication.ContaCargo.Adicionar(id, idCargo);
+            await FacadeApplication.Cargo.AtribuirCargoUsuario(id, idCargo);
             return RedirectToAction("AdicionarCargo", "PainelAdmin", new {id = id });
         }
 
         [HttpPost]
         public async Task<IActionResult> RemoverContaCargo(int idConta, int idCargo)
         {
-            await FacadeApplication.ContaCargo.Remover(idConta, idCargo);
+            await FacadeApplication.Cargo.RemoverCargoUsuario(idConta, idCargo);
             return RedirectToAction("AdicionarCargo", "PainelAdmin", new { id = idConta });
         }
         public async Task<IActionResult> EditarCargo(int id)
@@ -123,6 +123,26 @@ namespace WebApp.Controllers
             AtribuirProjetoDto.ProjetosUsuario = await FacadeApplication.Projeto.ConsultarProjetosDoUsuario(id);
 
             return View(AtribuirProjetoDto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AtribuirProjeto(int id, string project)
+        {
+            var Projeto = Convert.ToInt32(Request.Form["Projeto"]);
+            var Func = Convert.ToString(Request.Form["Funcao"]);
+            var Gerente= Request.Form["Gerente"].Count()!=0?true:false;
+
+            await FacadeApplication.Projeto.AtribuirProjetoUsuario(Projeto, id, Gerente, Func);
+
+            return RedirectToAction("AtribuirProjeto", "PainelAdmin", new { id = id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoverProjetoUsuario(int IdUsuario, int IdProjeto)
+        {
+            await FacadeApplication.Projeto.RemoverUsuarioDoProjeto(IdProjeto, IdUsuario);
+
+            return RedirectToAction("AtribuirProjeto", "PainelAdmin", new { id = IdUsuario });
         }
 
 

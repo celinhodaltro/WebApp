@@ -15,7 +15,7 @@ namespace FacadeApp.Services
 
         public async Task<List<ProjetoDal>> ConsultarTodos()
         {
-            var projetos = await AppContext.Projetos.OrderBy(tb=>tb.Prioridade).ToListAsync();
+            var projetos = await AppContext.Projetos.OrderBy(tb => tb.Prioridade).ToListAsync();
             return projetos;
         }
         public async Task<ProjetoDal> Consultar(int id)
@@ -26,11 +26,11 @@ namespace FacadeApp.Services
 
         public async Task<List<ProjetoDal>> ConsultarProjetosDoUsuario(int id)
         {
-            var projetoId = await AppContext.ContaProjeto.Where(tb => tb.IdConta == id).Select(tb=>tb.IdProjeto).ToListAsync();
+            var projetoId = await AppContext.ContaProjeto.Where(tb => tb.IdConta == id).Select(tb => tb.IdProjeto).ToListAsync();
 
             List<ProjetoDal> Projetos = new List<ProjetoDal>();
 
-            foreach(var obj in projetoId)
+            foreach (var obj in projetoId)
             {
                 var projeto = await AppContext.Projetos.Where(tb => tb.Id == obj).FirstOrDefaultAsync();
                 Projetos.Add(projeto);
@@ -38,6 +38,19 @@ namespace FacadeApp.Services
             }
 
             return Projetos;
+        }
+
+        public async Task RemoverUsuarioDoProjeto(int idProjeto, int idConta)
+        {
+            var projeto = await AppContext.ContaProjeto.Where(tb => tb.IdProjeto == idProjeto && tb.IdConta == idConta).FirstOrDefaultAsync();
+            AppContext.Remove(projeto);
+            await AppContext.SaveChangesAsync();
+        }
+
+        public async Task AtribuirProjetoUsuario(int idProjeto, int idConta, bool Gerente, string Funcao)
+        {
+            await AppContext.ContaProjeto.AddAsync(new ContaProjetoDal { IdConta = idConta, IdProjeto = idProjeto, GerenteDeProjeto = Gerente, Funcao = Funcao });
+            await AppContext.SaveChangesAsync();
         }
 
         public async Task Editar(int id, ProjetoDal projetodal)
