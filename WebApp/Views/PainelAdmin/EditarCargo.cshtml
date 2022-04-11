@@ -10,7 +10,7 @@
             <input asp-for="Nome" class="form-control" placeholder="Nome do Cargo." />
         </div>
         <div class="col-4">
-            <input asp-for="Nivel" class="form-control" placeholder="Nivel." />
+            <select asp-for="IdTipoCargo" class="form-control" asp-items="@Html.GetEnumSelectList<Lib.Enum.NivelContaEnum>()"></select>
         </div>
         <div class="col-12 mt-3">
             <button type="submit" class="form-control btn btn-primary" asp-action="EditarCargo" asp-controller="PainelAdmin"><i class="fa-solid fa-pen-to-square"></i></button>

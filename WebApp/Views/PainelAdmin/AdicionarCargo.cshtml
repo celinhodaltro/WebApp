@@ -8,7 +8,7 @@
         <div class="col-11">
             <select name="Cargo" class="custom-select form-control">
                 @{
-                            if (Model.Cargos != null)
+                    if (Model.Cargos != null)
                         foreach (var cargos in Model.Cargos)
                         {
                             <option value="@cargos.Id">@cargos.Nome</option>
@@ -39,7 +39,7 @@
                     {
                         <tr>
                             <td width="45%">@cargo.Nome</td>
-                            <td width="45%">@cargo.Nivel</td>
+                            <td width="45%">@((Lib.Enum.NivelContaEnum)cargo.IdTipoCargo)</td>
                             <td width="10%"><button type="submit" class="form-control btn btn-danger" asp-action="RemoverContaCargo" asp-controller="PainelAdmin" asp-route-IdConta="@Model.Id" asp-route-IdCargo="@cargo.Id"><i class="fa-solid fa-xmark"></i></button></td>
                         </tr>
                     }

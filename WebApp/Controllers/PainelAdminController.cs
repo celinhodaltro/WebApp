@@ -71,8 +71,8 @@ namespace WebApp.Controllers
         public async Task<IActionResult> AdicionarCargo()
         {
             var Nome = Convert.ToString(Request.Form["Nome"]);
-            var Nivel = Convert.ToInt32(Request.Form["Nivel"]);
-            await FacadeApplication.Cargo.Adicionar(Nome, Nivel);
+            var TipoCargo = Convert.ToInt32(Request.Form["TipoCargo"]);
+            await FacadeApplication.Cargo.Adicionar(Nome, TipoCargo);
             return RedirectToAction("Cargos", "PainelAdmin");
         }
 

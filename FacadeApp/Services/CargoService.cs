@@ -15,7 +15,7 @@ namespace FacadeApp.Services
 
         public async Task<List<CargoDal>> ConsultarTodos()
         {
-            var cargos = await AppContext.Cargos.OrderBy(tb=>tb.Nivel).ToListAsync();
+            var cargos = await AppContext.Cargos.OrderBy(tb=>tb.IdTipoCargo).ToListAsync();
             return cargos;
         }
 
@@ -29,22 +29,22 @@ namespace FacadeApp.Services
         {
             var cargo = await AppContext.Cargos.Where(tb => tb.Id == id).FirstOrDefaultAsync();
 
-            cargo.Nivel = cargoDal.Nivel;
+            cargo.IdTipoCargo = cargoDal.IdTipoCargo;
             cargo.Nome = cargoDal.Nome;
             await AppContext.SaveChangesAsync();
 
         }
 
-        public async Task Adicionar(string Nome, int Nivel)
+        public async Task Adicionar(string Nome, int IdTipoCargo)
         {
             if (Nome == "")
                 throw new Exception("A tarefa deve conter pelo menos uma letra.");
 
-            if (Nivel == 0)
-                throw new Exception("Adicione um Nivel para o cargo.");
+            if (IdTipoCargo == 0)
+                throw new Exception("Adicione um Tipo de cargo.");
 
 
-            await AppContext.Cargos.AddAsync(new CargoDal { Nome = Nome, Nivel = Nivel });
+            await AppContext.Cargos.AddAsync(new CargoDal { Nome = Nome, IdTipoCargo = IdTipoCargo });
             await AppContext.SaveChangesAsync();
 
         }

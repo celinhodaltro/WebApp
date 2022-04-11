@@ -4,14 +4,14 @@
 
 <form method="post">
     <div class="row">
-        <div class="col-8">
+        <div class="col-6">
             <input id="Nome" placeholder="Nome do Cargo." name="Nome" class="form-control" />
         </div>
-        <div class="col-2">
-            <input id="Nivel" placeholder="Nivel." name="Nivel" class="form-control" />
+        <div class="col-4">
+            <select id="TipoCargo" name="TipoCargo" class="form-control" asp-items="@Html.GetEnumSelectList<Lib.Enum.NivelContaEnum>()"></select>
         </div>
         <div class="col-2">
-            <button asp-action="AdicionarCargo" asp-controller="PainelAdmin" class="btn btn-primary form-control"><i class="fa-solid fa-check"></i></button>
+            <button asp-action="AdicionarCargo" asp-controller="PainelAdmin" class="btn btn-success form-control"><i class="fa-solid fa-check"></i></button>
         </div>
     </div>
     <div>
@@ -32,7 +32,7 @@
                         {
                             <tr>
                                 <td width="60%">@cargo.Nome</td>
-                                <td width="20%">@cargo.Nivel</td>
+                                <td width="20%">@((Lib.Enum.NivelContaEnum)cargo.IdTipoCargo)</td>
                                 <td width="10%"><button class="btn btn-primary" asp-action="EditarCargo" asp-controller="PainelAdmin" asp-route-id="@cargo.Id" formmethod="get"><i class="fa-solid fa-pen-to-square"></i></button></td>
                                 <td width="10%"><button class="btn btn-danger" asp-action="RemoverCargo" asp-controller="PainelAdmin" asp-route-id="@cargo.Id"><i class="fa-solid fa-xmark"></i></button></td>
                             </tr>

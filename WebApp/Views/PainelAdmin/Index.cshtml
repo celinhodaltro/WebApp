@@ -42,7 +42,6 @@
                             <tr>
                                 <td width="20%">@conta.Conta</td>
                                 <td width="20%">@conta.Email</td>
-                                <td width="20%">@(conta.Admin?"Sim":"Não")</td>
                                 <td width="10%"><a class="btn btn-primary" asp-action="AdicionarCargo" asp-controller="PainelAdmin" asp-route-Id="@conta.Id"><i class="fa-solid fa-user"></i></a></td>
                                 <td width="10%"><a class="btn btn-primary" asp-action="AtribuirProjeto" asp-controller="PainelAdmin" asp-route-Id="@conta.Id"><i class="fa-solid fa-cube"></i></a></td>
                             </tr>

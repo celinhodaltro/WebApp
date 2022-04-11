@@ -9,7 +9,7 @@ namespace Lib.Data
     public class CargoDal: BaseDal
     {
         public string Nome { get; set; }
-        public int Nivel { get; set; }
+        public int IdTipoCargo { get; set; }
 
     }
 }
