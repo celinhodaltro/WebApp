@@ -30,8 +30,9 @@
                 <th>Nome</th>
                 <th>Projeto</th>
                 <th>Status</th>
-                <th>Tipo do Chamado</th>
-                <th>Acessar Chamado</th>
+                <th>Tipo</th>
+                <th>Prioridade</th>
+                <th>Acessar</th>
             </tr>
         </thead>
         <tbody>
@@ -41,12 +42,12 @@
                     foreach (var Chamado in Model.Chamados)
                     {
                         <tr>
-                            <td width="15%">@Chamado.Nome</td>
+                            <td width="20%">@Chamado.Nome</td>
                             <td width="15%">@(Chamado.NomeProjeto!=""?Chamado.NomeProjeto:"Nenhum")</td>
                             <td width="20%">@((Lib.Enum.ChamadoStatus)Chamado.IdStatus)</td>
                             <td width="20%">@((Lib.Enum.TipoChamadoEnum)Chamado.IdTipoChamado)</td>
                             <td width="20%">@Chamado.Prioridade</td>
-                            <td width="10%"><button type="submit" class="form-control btn btn-success" asp-action="Chamado" asp-controller="PainelAdmin" asp-route-IdProjeto="@Chamado.Id"><i class="fa-solid fa-arrow-right"></i></button></td>
+                            <td width="5%"><button type="submit" class="form-control btn btn-success" asp-action="Chamado" asp-controller="PainelAdmin" asp-route-IdProjeto="@Chamado.Id"><i class="fa-solid fa-arrow-right"></i></button></td>
                         </tr>
                     }
             }
