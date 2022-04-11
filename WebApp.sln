@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lib.Data", "Lib.Data\Lib.Da
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lib.Dto", "Lib.Dto\Lib.Dto.csproj", "{E1DB2532-81E4-4084-BAD8-BE3484847734}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacadeApp", "FacadeApp\FacadeApp.csproj", "{927A6160-7920-4D79-8ED1-9730FBFFEF05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FacadeApp", "FacadeApp\FacadeApp.csproj", "{927A6160-7920-4D79-8ED1-9730FBFFEF05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lib.Enum", "Lib.Enum\Lib.Enum.csproj", "{DA5DE79B-FE1C-490A-97BA-FA905B4DAB41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{927A6160-7920-4D79-8ED1-9730FBFFEF05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{927A6160-7920-4D79-8ED1-9730FBFFEF05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{927A6160-7920-4D79-8ED1-9730FBFFEF05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA5DE79B-FE1C-490A-97BA-FA905B4DAB41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA5DE79B-FE1C-490A-97BA-FA905B4DAB41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA5DE79B-FE1C-490A-97BA-FA905B4DAB41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA5DE79B-FE1C-490A-97BA-FA905B4DAB41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

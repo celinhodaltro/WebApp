@@ -1,26 +1,40 @@
 ﻿@model List<Lib.Data.ChamadoDal>
 
-@{ViewData["Title"] = "Chamados - Projetos";}
+@{
+    ViewData["Title"] = "Painel de Chamados";
+}
 
+<div class="row d-flex justify-content-center">
+    <div class="col-2">
+        <a asp-action="CriarChamado" asp-controller="PainelAdmin" class="btn btn-primary form-control">Criar Chamado</a>
+    </div>
+</div>
+<hr />
 
 <form method="post">
     <table class="table mt-3">
         <thead>
             <tr>
                 <th>Nome</th>
-                <th>Prioridade</th>
-                <th></th>
+                <th>Projeto</th>
+                <th>Arquivar</th>
             </tr>
         </thead>
         <tbody>
             @{
 
                 if (Model != null)
-                    foreach (var projetoUsuario in Model)
+                    foreach (var Chamado in Model)
                     {
+                        var BloquearBotao = Chamado.IdStatus <= (int)Lib.Enum.ChamadoStatus.Atribuido ? "disabled" : "";
                         <tr>
-                            <td width="90%">@projetoUsuario.Nome</td>
-                            <td width="10%"><button type="submit" class="form-control btn btn-primary" asp-action="PainelChamadoProjeto" asp-controller="PainelAdmin" asp-route-IdProjeto="@projetoUsuario.Id"><i class="fa-solid fa-arrow-right"></i></button></td>
+                            <td width="20%">@Chamado.Nome</td>
+                            <td width="20%">@(Chamado.NomeProjeto!=""?Chamado.NomeProjeto:"Nenhum")</td>
+                            <td width="10%"><button type="submit" class="form-control btn btn-success  @BloquearBotao" asp-action="SolucionarChamado" asp-controller="PainelAdmin" asp-route-IdProjeto="@Chamado.Id"><i class="fa-solid fa-circle-check"></i></button></td>
+                            <td width="10%"><button type="submit" class="form-control btn btn-success  @BloquearBotao" asp-action="RecusarChamado" asp-controller="PainelAdmin" asp-route-IdProjeto="@Chamado.Id"><i class="fa-solid fa-x"></i></button></td>
+                            <td width="10%"><button type="submit" class="form-control btn btn-info  @BloquearBotao" asp-action="ArquivarChamado" asp-controller="PainelAdmin" asp-route-IdProjeto="@Chamado.Id"><i class="fa-solid fa-box"></i></button></td>
+                            <td width="10%"><button type="submit" class="form-control btn btn-info  @BloquearBotao" asp-action="AtribuirChamado" asp-controller="PainelAdmin" asp-route-IdProjeto="@Chamado.Id"><i class="fa-solid fa-user"></i></button></td>
+                            <td width="10%"><button type="submit" class="form-control btn btn-success @BloquearBotao" asp-action="Chamado" asp-controller="PainelAdmin" asp-route-IdProjeto="@Chamado.Id"><i class="fa-solid fa-arrow-right"></i></button></td>
                         </tr>
                     }
             }

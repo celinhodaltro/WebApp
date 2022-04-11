@@ -28,7 +28,7 @@ namespace FacadeApp.Services
         {
             var projetoId = await AppContext.ContaProjeto.Where(tb => tb.IdConta == id).Select(tb => tb.IdProjeto).ToListAsync();
 
-            List<ProjetoDal> Projetos = new List<ProjetoDal>();
+            List<ProjetoDal> Projetos = new();
 
             foreach (var obj in projetoId)
             {

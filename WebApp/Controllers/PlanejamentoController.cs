@@ -56,7 +56,7 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> Economias()
         {
-            var economiaDto = new EconomiaPageDto();
+            EconomiaPageDto economiaDto = new();
             economiaDto.Economias = await FacadeApplication.Planejamento.ConsultarEconomias(DateTime.Today, Convert.ToInt32(User.Identity.Name));
             economiaDto.EconomiasMeta = await FacadeApplication.Planejamento.ConsultarEconomiasMetas(Convert.ToInt32(User.Identity.Name));
 

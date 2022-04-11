@@ -26,6 +26,7 @@
     <ProjectReference Include="..\FacadeApp\FacadeApp.csproj" />
     <ProjectReference Include="..\Lib.Data\Lib.Data.csproj" />
     <ProjectReference Include="..\Lib.Dto\Lib.Dto.csproj" />
+    <ProjectReference Include="..\Lib.Enum\Lib.Enum.csproj" />
   </ItemGroup>
 
 </Project>

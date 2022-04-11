@@ -15,5 +15,6 @@ namespace Lib.Data
         public string NomeProjeto { get; set; }
         public int IdStatus { get; set; }
         public int IdTipoChamado { get; set; }
+        public bool Arquivado { get; set; }
     }
 }

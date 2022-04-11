@@ -13,7 +13,6 @@ namespace WebApp.Controllers
     {
         public IActionResult Index()
         {
-            var userid = Convert.ToInt32(User.Identity.Name);
             return View();
         }
 

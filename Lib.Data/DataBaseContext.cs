@@ -23,6 +23,8 @@ namespace Lib.Data
         public DbSet<ContaCargoDal> ContaCargo { get; set; }
         public DbSet<ProjetoDal> Projetos { get; set; }
         public DbSet<ContaProjetoDal> ContaProjeto { get; set; }
+        public DbSet<ChamadoDal> Chamados { get; set; }
+        public DbSet<ChamadoContaDal> ChamadoConta { get; set; }
 
 
 
