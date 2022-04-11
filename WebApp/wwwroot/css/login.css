@@ -1,4 +1,11 @@
-﻿* {
+﻿
+body {
+    justify-content: center;
+    background-size: cover;
+    background-image: url("../imagens/bg01-1024x515.png") !important;
+}
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -7,8 +14,11 @@
     border: none;
 }
 
-#card-login {
+body {
+    background-color: none;
+}
 
+#card-login {
     width: 400px;
     margin-left: auto !important;
     margin-right: auto !important;
@@ -16,36 +26,31 @@
     padding: 20px 30px;
     margin-top: 30vh;
     border-radius: 0px 10px 0px 10px;
-
-
-    background: rgba(255, 255, 255, 0.2);
+    background: #1b1b1b;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.3);
-
 }
 
-#card-login {
+#card-create {
     width: 400px;
     margin-left: auto !important;
     margin-right: auto !important;
     text-align: center;
     padding: 20px 30px;
-    margin-top: 20vh;
+    margin-top: 10vh;
     border-radius: 0px 10px 0px 10px;
-    background: rgba(255, 255, 255, 0.2);
+    background: #1b1b1b;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-body {
-    background-color: #1c1c1c;
-    justify-content: center;
-    background-size: cover;
-}
+
+
+
 
 label, input {
     display: block;
@@ -66,20 +71,6 @@ input {
 }
 
 #Logar {
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: bold;
-    border: none;
-    height: 40px;
-    border-radius: 20px;
-    margin-top: 30px;
-    background-color: white;
-    color: #2D2B2B !important;
-    display: block;
-    padding: 10px;
-}
-
-#Criar {
     text-align: center;
     text-transform: uppercase;
     font-weight: bold;

@@ -27,5 +27,8 @@ namespace WebApp.Controllers
             chamadosPageDto.Chamados = await FacadeApplication.Chamado.ConsultarChamadosDoUsuario(usuario);
             return View(chamadosPageDto);
         }
+
+
+
     }
 }

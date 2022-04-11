@@ -3,9 +3,9 @@
 <link href="~/css/login.css" rel="stylesheet" />
 
 
-<div id="card-login">
+<div id="card-create">
     <form method="post">
-        <h3>Registrar</h3>
+        <h3>REGISTRAR</h3>
         <label>Login:</label>
         <input asp-for="Conta" placeholder="Digite o seu Login" />
 
@@ -18,7 +18,7 @@
         <label>Email:</label>
         <input asp-for="Email" type="email" placeholder="Digite o email" />
 
-        <button type="submit" id="Criar" class="form-control">Criar Conta </button>
-        <p class="mt-2">Se deseja logar <a href="/Conta">Clique aqui!</a></p>
+        <button type="submit" class="btn btn-success form-control">CRIAR</button>
+        <p class="mt-2">Se deseja logar <a asp-action="Entrar" asp-controller="Login">Clique aqui!</a></p>
     </form>
 </div>

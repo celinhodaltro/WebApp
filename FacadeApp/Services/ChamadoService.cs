@@ -30,10 +30,10 @@ namespace FacadeApp.Services
             return chamados;
         }
 
-        public async Task Adicionar(ChamadoDal chamado, ChamadoContaDal chamadoConta)
+        public async Task Adicionar(ChamadoDal chamado)
         {
-            await AppContext.Chamados.AddAsync(new ChamadoDal {Nome = chamado.Nome, Desc = chamado.Desc, IdProjeto = chamado.IdProjeto, IdStatus = (int)ChamadoStatus.EmAnalise, IdTipoChamado = chamado.IdTipoChamado, Arquivado = false, NomeProjeto = chamado.NomeProjeto, Prioridade = chamado.Prioridade });
-            await AppContext.ChamadoConta.AddAsync(chamadoConta);
+            await AppContext.Chamados.AddAsync(new ChamadoDal {Nome = chamado.Nome, Desc = chamado.Desc, IdProjeto = chamado.IdProjeto, IdStatus = (int)ChamadoStatus.Processando, IdTipoChamado = chamado.IdTipoChamado, Arquivado = false, NomeProjeto = chamado.NomeProjeto, Prioridade = chamado.Prioridade });
+            await AppContext.SaveChangesAsync();
         }
 
 

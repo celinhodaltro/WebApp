@@ -1,25 +1,13 @@
-﻿@model Lib.Dto.ChamadoPageDto
+﻿@model List<Lib.Data.ChamadoDal>
 
 @{
     ViewData["Title"] = "Chamados";
 }
 
 <div class="row d-flex justify-content-center">
-    @{
-        if (Model.Projetos != null)
-            foreach (var obj in Model.Projetos)
-            {
-                <div class="col-@(2 + obj.Nome.Length/8) my-2">
-                    <a asp-action="Chamados" asp-controller="Chamados" asp-route-id="@obj.Id" class="btn btn-info form-control">@obj.Nome</a>
-                </div>
-            }
-        else
-        {
             <div class="col-2">
-                <a asp-action="Chamados" asp-controller="Chamados" class="btn btn-primary form-control">Voltar</a>
+                <a asp-action="CriarChamado" asp-controller="PainelAdmin" class="btn btn-info form-control">Criar Chamado</a>
             </div>
-        }
-    }
 </div>
 <hr />
 
@@ -32,6 +20,7 @@
                 <th>Status</th>
                 <th>Tipo</th>
                 <th>Prioridade</th>
+                <th>Atribuir</th>
                 <th>Acessar</th>
             </tr>
         </thead>
@@ -39,14 +28,15 @@
             @{
 
                 if (Model != null)
-                    foreach (var Chamado in Model.Chamados)
+                    foreach (var Chamado in Model)
                     {
                         <tr>
                             <td width="20%">@Chamado.Nome</td>
                             <td width="15%">@(Chamado.NomeProjeto!=""?Chamado.NomeProjeto:"Nenhum")</td>
                             <td width="20%">@((Lib.Enum.ChamadoStatus)Chamado.IdStatus)</td>
                             <td width="20%">@((Lib.Enum.TipoDeChamadoEnum)Chamado.IdTipoChamado)</td>
-                            <td width="20%">@Chamado.Prioridade</td>
+                            <td width="10%">@Chamado.Prioridade</td>
+                            <td width="5%"><button type="submit" class="form-control btn btn-primary" asp-action="Atribuir" asp-controller="PainelAdmin" asp-route-IdProjeto="@Chamado.Id"><i class="fa-solid fa-pen-clip"></i></button></td>
                             <td width="5%"><button type="submit" class="form-control btn btn-success" asp-action="Chamado" asp-controller="PainelAdmin" asp-route-IdProjeto="@Chamado.Id"><i class="fa-solid fa-arrow-right"></i></button></td>
                         </tr>
                     }

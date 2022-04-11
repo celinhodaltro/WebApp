@@ -1,0 +1,40 @@
+﻿@model Lib.Dto.CriarChamadoPageDto
+
+@{
+    ViewData["Title"] = "Criar Chamado";
+}
+
+<form method="post">
+    <div class="row mt-2">
+        <div class="col-8">
+            <input asp-for="Chamado.Nome" placeholder="Digite o nome do chamado" class="form-control" />
+        </div>
+        <div class="col-4">
+            <input asp-for="Chamado.Prioridade" type="number" placeholder="Prioridade" class="form-control" />
+        </div>
+        <div class="col-12 my-3">
+            <textarea asp-for="Chamado.Desc" rows="20" placeholder="Digite uma descrição do chamado" class="form-control"> </textarea>
+        </div>
+        <div class="col-6">
+            <label>Tipo:</label>
+            <select asp-for="Chamado.IdTipoChamado" type="number" placeholder="Prioridade" class="form-control" asp-items="Html.GetEnumSelectList<Lib.Enum.TipoDeChamadoEnum>()"> </select>
+        </div>
+        <div class="col-6">
+            <label>Projeto:</label>
+            <select asp-for="Chamado.IdProjeto" type="number" placeholder="Prioridade" class="form-control">
+                <option value="0">Nenhum</option>
+                @{
+                    foreach (var projeto in Model.Projeto)
+                    {
+                        <option value="@projeto.Id">@projeto.Nome</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="my-3 col-12 d-flex justify-content-center">
+            <a class="btn btn-secondary mr-1" asp-action="Index" asp-controller="Chamados"><i class="fa-solid fa-arrow-left mr-1"></i>Voltar</a>
+            <button type="submit" asp-action="CriarChamado" asp-controller="Chamados" class="btn btn-success"><i class="fa-solid fa-check mr-1"></i>Criar</button>
+        </div>
+
+    </div>
+</form>

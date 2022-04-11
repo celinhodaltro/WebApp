@@ -145,6 +145,33 @@ namespace WebApp.Controllers
             return RedirectToAction("AtribuirProjeto", "PainelAdmin", new { id = IdUsuario });
         }
 
+        public async Task<IActionResult> Chamados()
+        {
+            var Chamados = await FacadeApplication.Chamado.ConsultarTodos();
+
+            return View(Chamados);
+        }
+
+        public async Task<IActionResult> CriarChamado()
+        {
+            CriarChamadoPageDto criarChamadoPageDto = new();
+            criarChamadoPageDto.Chamado = new();
+            criarChamadoPageDto.Projeto = await FacadeApplication.Projeto.ConsultarProjetosDoUsuario(Convert.ToInt32(User.Identity.Name), true);
+            return View(criarChamadoPageDto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CriarChamado(CriarChamadoPageDto criarChamadoPageDto)
+        {
+            var projeto = await FacadeApplication.Projeto.Consultar(criarChamadoPageDto.Chamado.IdProjeto);
+            criarChamadoPageDto.Chamado.NomeProjeto = projeto.Nome;
+            await FacadeApplication.Chamado.Adicionar(criarChamadoPageDto.Chamado);
+            return RedirectToAction("Index", "Chamados");
+        }
+
+
+
+
 
 
 
