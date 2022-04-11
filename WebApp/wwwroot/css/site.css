@@ -162,8 +162,8 @@ nav ul li a span {
     left: 20%;
     color: #202020;
     z-index: -1;
-    width: 900px;
-    height: 900px;
+    width: 1064px;
+    height: auto;
 }
 
 /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification

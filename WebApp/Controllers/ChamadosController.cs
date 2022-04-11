@@ -21,9 +21,11 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
+            ChamadoPageDto chamadosPageDto = new();
             var usuario = Convert.ToInt32(User.Identity.Name);
-            var projetos = await FacadeApplication.Projeto.ConsultarProjetosDoUsuario(usuario);
-            return View(projetos);
+            chamadosPageDto.Projetos = await FacadeApplication.Projeto.ConsultarProjetosDoUsuario(usuario);
+            chamadosPageDto.Chamados = await FacadeApplication.Chamado.ConsultarChamadosDoUsuario(usuario);
+            return View(chamadosPageDto);
         }
     }
 }

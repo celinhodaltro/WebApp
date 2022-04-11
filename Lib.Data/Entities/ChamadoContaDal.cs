@@ -8,7 +8,7 @@ namespace Lib.Data
 {
     public class ChamadoContaDal : BaseDal
     {
-        public int IdProjeto { get; set; }
+        public int IdChamado { get; set; }
         public string Funcao { get; set; }
         public int IdContaAtribuinte { get; set; }
         public int IdContaAtribuido { get; set; }
