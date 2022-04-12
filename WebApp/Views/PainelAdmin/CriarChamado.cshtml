@@ -10,7 +10,7 @@
             <input asp-for="Chamado.Nome" placeholder="Digite o nome do chamado" class="form-control" />
         </div>
         <div class="col-4">
-            <input asp-for="Chamado.Prioridade" type="number" placeholder="Prioridade" class="form-control" />
+            <select asp-for="Chamado.Prioridade" type="number" placeholder="Prioridade" class="form-control" asp-items="Html.GetEnumSelectList<Lib.Enum.PrioridadeEnum>()"> </select>
         </div>
         <div class="col-12 my-3">
             <textarea asp-for="Chamado.Desc" rows="20" placeholder="Digite uma descrição do chamado" class="form-control"> </textarea>

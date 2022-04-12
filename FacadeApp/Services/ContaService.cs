@@ -16,9 +16,27 @@ namespace FacadeApp.Services
         public async Task<List<ContaDal>> ConsultarTodos()
         {
             var quantidadeContas = await AppContext.Contas.CountAsync();
-            var contas = await AppContext.Contas.Take(quantidadeContas>=10?10:quantidadeContas).ToListAsync();
+            var contas = await AppContext.Contas.Take(quantidadeContas >= 10 ? 10 : quantidadeContas).ToListAsync();
             return contas;
         }
+
+        public async Task<List<ContaDal>> ConsultarUsuariosDoProjeto(int idProjeto)
+        {
+
+            var contasId = await AppContext.ContaProjeto.Where(tb => tb.IdProjeto == idProjeto).Select(tb => tb.IdConta).ToListAsync();
+
+            List<ContaDal> Contas = new();
+
+            foreach (var obj in contasId)
+            {
+                var conta = await AppContext.Contas.Where(tb => tb.Id == obj).FirstOrDefaultAsync();
+                Contas.Add(conta);
+                conta = null;
+            }
+
+            return Contas;
+        }
+
 
         public async Task<ContaDal> Consultar(int id = 0, string nome = "", string email = "", string senha = "")
         {
@@ -32,7 +50,7 @@ namespace FacadeApp.Services
         {
 
             return await AppContext.Contas
-                .Where(tb=> (tb.Conta == nome || tb.Email == nome) && tb.Senha == senha)
+                .Where(tb => (tb.Conta == nome || tb.Email == nome) && tb.Senha == senha)
                 .FirstOrDefaultAsync();
         }
 
@@ -51,7 +69,7 @@ namespace FacadeApp.Services
                 throw new Exception("Está conta já existe.");
 
 
-            return new ContaDal {Conta = conta.Conta, Email = conta.Email, Senha = conta.Senha};
+            return new ContaDal { Conta = conta.Conta, Email = conta.Email, Senha = conta.Senha };
 
         }
 

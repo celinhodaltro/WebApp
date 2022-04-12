@@ -17,6 +17,12 @@ namespace FacadeApp.Services
             return chamados;
         }
 
+        public async Task<ChamadoDal> Consultar(int id)
+        {
+            var chamado = await AppContext.Chamados.Where(tb => tb.Id == id).FirstOrDefaultAsync();
+            return chamado;
+        }
+
         public async Task<List<ChamadoDal>> ConsultarChamadosDoUsuario(int id)
         {
             var chamadosId = await AppContext.ChamadoConta.Where(tb => tb.IdContaAtribuido == id || tb.IdContaAtribuinte == id).Select(tb => tb.IdChamado).ToListAsync();

@@ -1,0 +1,59 @@
+﻿@model Lib.Dto.AtribuirChamadoDto
+
+@{ViewData["Title"] = "Atribuir Projeto";}
+
+
+<div>
+    <hr />
+    <table class="table my-3">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Projeto</th>
+                <th>Status</th>
+                <th>Tipo</th>
+                <th>Prioridade</th>
+                <th>Atribuir</th>
+                <th>Acessar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td width="20%">@Model.chamado.Nome</td>
+                <td width="20%">@(Model.chamado.NomeProjeto!=""?Model.chamado.NomeProjeto:"Nenhum")</td>
+                <td width="20%">@((Lib.Enum.ChamadoStatus)Model.chamado.IdStatus)</td>
+                <td width="20%">@((Lib.Enum.TipoDeChamadoEnum)Model.chamado.IdTipoChamado)</td>
+                <td width="20%">@((Lib.Enum.PrioridadeEnum)Model.chamado.Prioridade)</td>
+            </tr>
+
+        </tbody>
+    </table>
+    <hr />
+</div>
+
+
+<form method="post">
+    <table class="table my-5">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Prioridade</th>
+                <th>Atribuir</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+
+                if (Model != null)
+                    foreach (var conta in Model.Contas)
+                    {
+                        <tr>
+                            <td width="45%">@conta.Conta</td>
+                            <td width="45%">@conta.Email</td>
+                            <td width="10%"><button type="submit" class="form-control btn btn-success" asp-action="AtribuirModel.Chamados" asp-controller="PainelAdmin" asp-route-Id="@ViewContext.RouteData.Values["id"]" asp-route-contaId="@conta.Id"><i class="fa-solid fa-check mr-1"></i></button></td>
+                        </tr>
+                    }
+            }
+        </tbody>
+    </table>
+</form>

@@ -170,6 +170,16 @@ namespace WebApp.Controllers
         }
 
 
+        public async Task<IActionResult> AtribuirChamado(int id)
+        {
+            AtribuirChamadoDto atribuirChamadoDto = new();
+            atribuirChamadoDto.chamado = await FacadeApplication.Chamado.Consultar(id);
+            atribuirChamadoDto.Contas = await FacadeApplication.Conta.ConsultarUsuariosDoProjeto(atribuirChamadoDto.chamado.IdProjeto);
+            return View(atribuirChamadoDto);
+        }
+
+
+
 
 
 
