@@ -34,11 +34,20 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Entrar(ContaDto contadto)
         {
-            var Conta = await FacadeApplication.Conta.ConsultarEntrada(nome: contadto.Conta, senha: contadto.Senha);
-            if (Conta == null)
-                throw new Exception("Conta invalida.");
-            EntrarConta(Conta);
-            return RedirectToAction("Index","Home");
+            try
+            {
+                var Conta = await FacadeApplication.Conta.ConsultarEntrada(nome: contadto.Conta, senha: contadto.Senha);
+                if (Conta == null)
+                    throw new Exception("Conta invalida.");
+                EntrarConta(Conta);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                ViewData["Entrar"] = true;
+                return View(contadto);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Criar()

@@ -19,6 +19,7 @@
         <input asp-for="Email" type="email" placeholder="Digite o email" />
 
         <button type="submit" class="btn btn-success form-control">CRIAR</button>
+        <div asp-validation-summary="All" class="text-danger"></div>
         <p class="mt-2">Se deseja logar <a asp-action="Entrar" asp-controller="Login">Clique aqui!</a></p>
     </form>
 </div>

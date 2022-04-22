@@ -1,10 +1,10 @@
 ﻿@model Lib.Dto.AtribuirChamadoDto
 
-@{ViewData["Title"] = "Atribuir Projeto";}
+@{ViewData["Title"] = "Atribuir Chamado - " + Model.chamado.Id;}
 
+<div asp-validation-summary="All" class="text-danger"></div>
 
 <div>
-    <hr />
     <table class="table my-3">
         <thead>
             <tr>
@@ -32,6 +32,8 @@
 </div>
 
 
+<h3 class="text-center">Atribuir</h3>
+<hr />
 <form method="post">
     <table class="table my-5">
         <thead>
@@ -50,10 +52,38 @@
                         <tr>
                             <td width="45%">@conta.Conta</td>
                             <td width="45%">@conta.Email</td>
-                            <td width="10%"><button type="submit" class="form-control btn btn-success" asp-action="AtribuirModel.Chamados" asp-controller="PainelAdmin" asp-route-Id="@ViewContext.RouteData.Values["id"]" asp-route-contaId="@conta.Id"><i class="fa-solid fa-check mr-1"></i></button></td>
+                            <td width="10%"><button type="submit" class="form-control btn btn-success" asp-action="AtribuirChamado" asp-controller="PainelAdmin" asp-route-contaId="@conta.Id"><i class="fa-solid fa-check mr-1"></i></button></td>
                         </tr>
                     }
             }
         </tbody>
     </table>
 </form>
+
+<h3 class="text-center">Atribuidos</h3>
+<hr />
+<form method="post">
+    <table class="table my-5">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+
+                if (Model != null)
+                    foreach (var conta in Model.ContasAtribuidas)
+                    {
+                        <tr>
+                            <td width="50%">@conta.Conta</td>
+                            <td width="50%">@conta.Email</td>
+                        </tr>
+                    }
+            }
+        </tbody>
+    </table>
+</form>
+
+

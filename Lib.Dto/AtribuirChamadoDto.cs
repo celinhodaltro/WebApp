@@ -11,5 +11,6 @@ namespace Lib.Dto
     {
         public ChamadoDal chamado { get; set; }
         public List<ContaDal> Contas { get; set; }
+        public List<ContaDal> ContasAtribuidas { get; set; }
     }
 }

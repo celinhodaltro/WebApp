@@ -37,6 +37,29 @@ namespace FacadeApp.Services
             return Contas;
         }
 
+        public async Task<List<ContaDal>> ConsultarUsuariosDoChamado(int idChamado, bool atribuido = false, bool atribuinte = false)
+        {
+            var contasId = await AppContext.ChamadoConta.Where(tb => tb.IdChamado == idChamado).ToListAsync();
+
+            List<int> contasID = new();
+
+            if (atribuido == true)
+                contasID.AddRange(contasId.Select(tb => tb.IdContaAtribuido));
+            if (atribuinte == true)
+                contasID.AddRange(contasId.Select(tb => tb.IdContaAtribuinte));
+
+            List<ContaDal> Contas = new();
+
+            foreach (var obj in contasID.Distinct())
+            {
+                var conta = await AppContext.Contas.Where(tb => tb.Id == obj).FirstOrDefaultAsync();
+                Contas.Add(conta);
+                conta = null;
+            }
+
+            return Contas;
+        }
+
 
         public async Task<ContaDal> Consultar(int id = 0, string nome = "", string email = "", string senha = "")
         {

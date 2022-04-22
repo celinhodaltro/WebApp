@@ -121,7 +121,6 @@ namespace WebApp.Controllers
             var AtribuirProjetoDto = new AtribuirProjetoDto();
             AtribuirProjetoDto.Projetos = await FacadeApplication.Projeto.ConsultarTodos();
             AtribuirProjetoDto.ProjetosUsuario = await FacadeApplication.Projeto.ConsultarProjetosDoUsuario(id);
-
             return View(AtribuirProjetoDto);
         }
 
@@ -131,9 +130,7 @@ namespace WebApp.Controllers
             var Projeto = Convert.ToInt32(Request.Form["Projeto"]);
             var Func = Convert.ToString(Request.Form["Funcao"]);
             var Gerente= Request.Form["Gerente"].Count()!=0?true:false;
-
             await FacadeApplication.Projeto.AtribuirProjetoUsuario(Projeto, id, Gerente, Func);
-
             return RedirectToAction("AtribuirProjeto", "PainelAdmin", new { id = id });
         }
 
@@ -166,16 +163,24 @@ namespace WebApp.Controllers
             var projeto = await FacadeApplication.Projeto.Consultar(criarChamadoPageDto.Chamado.IdProjeto);
             criarChamadoPageDto.Chamado.NomeProjeto = projeto.Nome;
             await FacadeApplication.Chamado.Adicionar(criarChamadoPageDto.Chamado);
-            return RedirectToAction("Index", "Chamados");
+            return RedirectToAction("Chamados", "PainelAdmin");
         }
 
 
         public async Task<IActionResult> AtribuirChamado(int id)
-        {
+         {
             AtribuirChamadoDto atribuirChamadoDto = new();
             atribuirChamadoDto.chamado = await FacadeApplication.Chamado.Consultar(id);
             atribuirChamadoDto.Contas = await FacadeApplication.Conta.ConsultarUsuariosDoProjeto(atribuirChamadoDto.chamado.IdProjeto);
+            atribuirChamadoDto.ContasAtribuidas = await FacadeApplication.Conta.ConsultarUsuariosDoChamado(atribuirChamadoDto.chamado.Id, atribuido: true);
             return View(atribuirChamadoDto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AtribuirChamado(int id, int contaId)
+        {
+            await FacadeApplication.Chamado.Atribuir(id, Convert.ToInt32(User.Identity.Name), contaId);
+            return RedirectToAction("Index", "Chamados");
         }
 
 
