@@ -24,13 +24,28 @@ namespace FacadeApp.Services
             return tarefas;
         }
 
-        public async Task AdicionarTarefa(string Nome, DateTime Horario, int Id)
+        public async Task AdicionarTarefa(string Nome, DateTime HoraI, DateTime HoraF, int Id)
         {
+            if(HoraI>HoraF)
+                throw new Exception("Horario de conclusão deve proceder o horario de inicio.");
             if (Nome == "")
-                throw new Exception("A tarefa deve conter pelo menos uma letra!");
+                throw new Exception("A tarefa deve conter pelo menos uma letra.");
 
+            var Checktarefa = await AppContext.Tarefas
+                .Where(
+                    tb => 
+                    (tb.IdConta == Id)
+                    && 
+                    ((DateTime.Now.Date == tb.HoraDeInicio.Date) && (DateTime.Now.Date == tb.HoraDeConclusao.Date))
+                    &&
+                    ((tb.HoraDeInicio <= HoraI && tb.HoraDeConclusao >= HoraI) || (tb.HoraDeInicio <= HoraF && tb.HoraDeConclusao >= HoraF))
+                )
+                .ToListAsync();
 
-            await AppContext.AddAsync(new TarefaDal { Dia = DateTime.Today, Feita = false, HoraDeConclusao = Horario, IdConta = Id, Nome = Nome });
+            if (Checktarefa.Count != 0)
+                throw new Exception("Ja existe uma tarefa programada para este momento.");
+
+            await AppContext.AddAsync(new TarefaDal { Dia = DateTime.Today, Feita = false, HoraDeInicio = HoraI, HoraDeConclusao = HoraF, IdConta = Id, Nome = Nome });
             await AppContext.SaveChangesAsync();
 
         }

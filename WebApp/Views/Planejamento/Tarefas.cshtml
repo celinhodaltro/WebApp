@@ -1,16 +1,23 @@
 ﻿@model List<Lib.Data.TarefaDal>
 
 
-
+<div asp-validation-summary="All"></div>
 <form method="post">
     <div class="row">
-        <div class="col-7">
+        <div class="col-4">
+            <label>Nome da tarefa</label>
             <input id="NomeDaTarefa" placeholder="Digite o nome da tarefa que você deseja adicionar!" name="NomeDaTarefa" class="form-control" />
         </div>
         <div class="col-3">
-            <input id="HoraDaTarefa" type="time" name="HoraDaTarefa" class="form-control" />
+            <label>Hora de inicio</label>
+            <input id="HoraDeInicio" type="time" name="HoraDeInicio" class="form-control" />
+        </div>
+        <div class="col-3">
+            <label>Hora de conclusão</label>
+            <input id="HoraDeConclusao" type="time" name="HoraDeConclusao" class="form-control" />
         </div>
         <div class="col-2">
+            <br />
             <button asp-action="AdicionarTarefa" asp-controller="Planejamento" class="btn btn-primary form-control"><i class="fa-solid fa-check"></i></button>
         </div>
     </div>
@@ -20,22 +27,24 @@
                 <tr>
                     <th>Feito</th>
                     <th>Nome da Tarefa</th>
+                    <th>Horario de Inicio</th>
                     <th>Horario de Conclusão</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 @{
-                    
-                if (Model != null)
+
+                    if (Model != null)
                         foreach (var tarefa in Model)
                         {
-                                <tr>
-                                    <td width="10%"><input class="form-control" asp-for="@tarefa.Feita" oninput="this.form.submit()" /></td>
-                                    <td width="70%">@tarefa.Nome</td>
-                                    <td width="20%">@tarefa.HoraDeConclusao.ToString("t")</td>
-                                    <td width="10%"><button class="btn btn-danger" asp-action="RemoverTarefa" asp-controller="Planejamento" asp-route-id="@tarefa.Id"><i class="fa-solid fa-xmark"></i></button></td>
-                                </tr>
+                            <tr>
+                                <td width="10%"><input class="form-control" asp-for="@tarefa.Feita" oninput="this.form.submit()" /></td>
+                                <td width="40%">@tarefa.Nome</td>
+                                <td width="20%">@tarefa.HoraDeInicio.ToString("t")</td>
+                                <td width="20%">@tarefa.HoraDeConclusao.ToString("t")</td>
+                                <td width="10%"><button class="btn btn-danger" asp-action="RemoverTarefa" asp-controller="Planejamento" asp-route-id="@tarefa.Id"><i class="fa-solid fa-xmark"></i></button></td>
+                            </tr>
                         }
                 }
             </tbody>
