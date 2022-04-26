@@ -21,7 +21,10 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
+
             var contas = await FacadeApplication.Conta.ConsultarTodos();
+
+
             return View(contas);
         }
 
@@ -42,45 +45,97 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AdicionarContaCargo(int id, string nome)
-        {
-            var idCargo = Convert.ToInt32(Request.Form["Cargo"]);
-            await FacadeApplication.Cargo.AtribuirCargoUsuario(id, idCargo);
-            return RedirectToAction("AdicionarCargo", "PainelAdmin", new {id = id });
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> RemoverContaCargo(int idConta, int idCargo)
-        {
-            await FacadeApplication.Cargo.RemoverCargoUsuario(idConta, idCargo);
-            return RedirectToAction("AdicionarCargo", "PainelAdmin", new { id = idConta });
-        }
-        public async Task<IActionResult> EditarCargo(int id)
-        {
-            var cargo = await FacadeApplication.Cargo.Consultar(id);
-            return View(cargo);
-        }
-        [HttpPost]
-        public async Task<IActionResult> EditarCargo(int id, CargoDal cargodal)
-        {
-            await FacadeApplication.Cargo.Editar(id, cargodal);
-            return RedirectToAction("Cargos", "PainelAdmin");
-        }
-
-        [HttpPost]
         public async Task<IActionResult> AdicionarCargo()
         {
-            var Nome = Convert.ToString(Request.Form["Nome"]);
-            var TipoCargo = Convert.ToInt32(Request.Form["TipoCargo"]);
-            await FacadeApplication.Cargo.Adicionar(Nome, TipoCargo);
-            return RedirectToAction("Cargos", "PainelAdmin");
+            try
+            {
+                var Nome = Convert.ToString(Request.Form["Nome"]);
+                var TipoCargo = Convert.ToInt32(Request.Form["TipoCargo"]);
+                await FacadeApplication.Cargo.Adicionar(Nome, TipoCargo);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+            var cargos = await FacadeApplication.Cargo.ConsultarTodos();
+            return View("Cargos", cargos);
         }
 
         [HttpPost]
         public async Task<IActionResult> RemoverCargo(int Id)
         {
-            await FacadeApplication.Planejamento.RemoverTarefa(Id);
-            return RedirectToAction("Tarefas", "Planejamento");
+            try
+            {
+                await FacadeApplication.Cargo.RemoverCargo(Id);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+            var cargos = await FacadeApplication.Cargo.ConsultarTodos();
+            return View("Cargos", cargos);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AdicionarContaCargo(int id, string nome)
+        {
+            try
+            {
+                var idCargo = Convert.ToInt32(Request.Form["Cargo"]);
+                await FacadeApplication.Cargo.AtribuirCargoUsuario(id, idCargo);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+            var cargos = new CargoPageDto();
+            cargos.CargosPessoa = await FacadeApplication.Cargo.ConsultarCargosDoUsuario(id);
+            cargos.Cargos = await FacadeApplication.Cargo.ConsultarTodos();
+            cargos.IdPessoa = id;
+            return View("AdicionarCargo", cargos);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoverContaCargo(int idConta, int idCargo)
+        {
+            try
+            {
+                await FacadeApplication.Cargo.RemoverCargoUsuario(idConta, idCargo);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+            var cargos = new CargoPageDto();
+            cargos.CargosPessoa = await FacadeApplication.Cargo.ConsultarCargosDoUsuario(idConta);
+            cargos.Cargos = await FacadeApplication.Cargo.ConsultarTodos();
+            cargos.IdPessoa = idConta;
+            return View("AdicionarCargo", cargos);
+
+        }
+
+        public async Task<IActionResult> EditarCargo(int id)
+        {
+            var cargo = await FacadeApplication.Cargo.Consultar(id);
+            return View(cargo);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditarCargo(int id, CargoDal cargodal)
+        {
+            try
+            {
+                await FacadeApplication.Cargo.Editar(id, cargodal);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+            var cargos = new CargoPageDto();
+            cargos.CargosPessoa = await FacadeApplication.Cargo.ConsultarCargosDoUsuario(id);
+            cargos.Cargos = await FacadeApplication.Cargo.ConsultarTodos();
+            cargos.IdPessoa = id;
+            return View("AdicionarCargo", cargos);
         }
 
 
@@ -129,7 +184,7 @@ namespace WebApp.Controllers
         {
             var Projeto = Convert.ToInt32(Request.Form["Projeto"]);
             var Func = Convert.ToString(Request.Form["Funcao"]);
-            var Gerente= Request.Form["Gerente"].Count()!=0?true:false;
+            var Gerente = Request.Form["Gerente"].Count() != 0 ? true : false;
             await FacadeApplication.Projeto.AtribuirProjetoUsuario(Projeto, id, Gerente, Func);
             return RedirectToAction("AtribuirProjeto", "PainelAdmin", new { id = id });
         }
@@ -168,7 +223,7 @@ namespace WebApp.Controllers
 
 
         public async Task<IActionResult> AtribuirChamado(int id)
-         {
+        {
             AtribuirChamadoDto atribuirChamadoDto = new();
             atribuirChamadoDto.chamado = await FacadeApplication.Chamado.Consultar(id);
             atribuirChamadoDto.Contas = await FacadeApplication.Conta.ConsultarUsuariosDoProjeto(atribuirChamadoDto.chamado.IdProjeto);

@@ -29,7 +29,7 @@ namespace WebApp.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Tarefas(List<TarefaDal> tarefas) 
+        public async Task<IActionResult> Tarefas(List<TarefaDal> tarefas)
         {
             await FacadeApplication.Planejamento.AlterarFeitos(tarefas);
             return RedirectToAction("Tarefas", "Planejamento");
@@ -38,10 +38,19 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> AdicionarTarefa()
         {
-            var Nome = Convert.ToString(Request.Form["NomeDaTarefa"]);
-            var Hora = Convert.ToDateTime(Request.Form["HoraDaTarefa"]);
-            await FacadeApplication.Planejamento.AdicionarTarefa(Nome, Hora, Convert.ToInt32(User.Identity.Name));
-            return RedirectToAction("Tarefas", "Planejamento");
+            try
+            {
+                var Nome = Convert.ToString(Request.Form["NomeDaTarefa"]);
+                var HoraI = Convert.ToDateTime(Request.Form["HoraDeInicio"]);
+                var HoraF = Convert.ToDateTime(Request.Form["HoraDeConclusao"]);
+                await FacadeApplication.Planejamento.AdicionarTarefa(Nome, HoraI, HoraF, Convert.ToInt32(User.Identity.Name));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+            var tarefas = await FacadeApplication.Planejamento.ConsultarTarefas(DateTime.Today, Convert.ToInt32(User.Identity.Name));
+            return View("Tarefas", tarefas);
         }
 
         [HttpPost]

@@ -35,6 +35,15 @@ namespace WebApp.Controllers
             return View(chamadosPageDto);
         }
 
+        public async Task<IActionResult> Chamado(int id)
+        {
+            ChamadoSolicitacaoPageDto chamadoSolicitacaoPageDto = new();
+            chamadoSolicitacaoPageDto.Solicitacoes = await FacadeApplication.Chamado.ConsultarSolicitacaoChamado(id);
+            chamadoSolicitacaoPageDto.Atribuinte = await FacadeApplication.Chamado.ChecarAtribuicao(Convert.ToInt32(User.Identity.Name), id, true);
+
+            return View(chamadoSolicitacaoPageDto);
+        }
+
 
 
     }

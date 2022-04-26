@@ -1,0 +1,38 @@
+﻿@model Lib.Dto.ChamadoSolicitacaoPageDto
+
+
+
+<form method="post">
+    <div class="row d-flex justify-content-center">
+        <div class="col-2">
+            <textarea asp-for="Solicitar.Mensagem" cols="3"></textarea>
+            <select asp-for="Solicitar.idTipoSolicitacao"></select>
+            <a asp-action="SolicitacaoDeChamado" asp-controller="Chamados" class="btn btn-primary form-control">Solicitar</a>
+        </div>
+    </div>
+    <hr class="mb-2" />
+</form>
+
+@{
+    if (Model.Solicitacoes != null)
+        foreach (var obj in Model.Solicitacoes)
+        {
+            var align = obj.Atribuinte ? "text-right" : "text-left";
+            <div class="@align">
+                <h3>@obj.NomeDoAutor</h3>
+                <small class="mb-2">@obj.EmailDoAutor</small>
+                <p>@obj.Mensagem</p>
+                @{ if (Model.Atribuinte && obj.idTipoSolicitacao != (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Acompanhamento)
+                    {
+                        <button class="btn btn-primary mt-2">Aceitar</button>
+                    }
+                }
+
+                <small>@((Lib.Enum.TipoDeChamadoSolicitacaoEnum)obj.idTipoSolicitacao)</small>
+
+
+            </div>
+            <hr />
+        }
+
+}

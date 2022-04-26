@@ -23,6 +23,21 @@ namespace FacadeApp.Services
             return chamado;
         }
 
+        public async Task<bool> ChecarAtribuicao(int idConta, int idChamado, bool atribuinte = false)
+        {
+            bool resultado = false;
+            List<ChamadoContaDal> chamadoConta = new();
+            if (atribuinte)
+                chamadoConta = await AppContext.ChamadoConta.Where(tb => tb.IdContaAtribuinte == idConta && tb.IdChamado == idChamado).ToListAsync();
+            else
+                chamadoConta = await AppContext.ChamadoConta.Where(tb => tb.IdContaAtribuido == idConta && tb.IdChamado == idChamado).ToListAsync();
+
+            if (chamadoConta != null)
+                resultado = true;
+
+            return resultado;
+        }
+
         public async Task<List<ChamadoDal>> ConsultarChamadosDoUsuario(int id, int idProjeto = 0)
         {
 
@@ -33,11 +48,11 @@ namespace FacadeApp.Services
             foreach (var chamadoid in chamadosId)
             {
                 ChamadoDal chamado = new();
-                if(idProjeto!=0)
+                if (idProjeto != 0)
                     chamado = await AppContext.Chamados.Where(tb => tb.Id == chamadoid && tb.IdProjeto == idProjeto).FirstOrDefaultAsync();
                 else
                     chamado = await AppContext.Chamados.Where(tb => tb.Id == chamadoid).FirstOrDefaultAsync();
-                if(chamado!=null)
+                if (chamado != null)
                     chamados.Add(chamado);
 
                 chamado = null;
@@ -54,7 +69,18 @@ namespace FacadeApp.Services
         public async Task Atribuir(int idChamado, int idAtribuinte, int idAtribuido)
         {
             await AppContext.ChamadoConta.AddAsync(new ChamadoContaDal { IdChamado = idChamado, IdContaAtribuinte = idAtribuinte, IdContaAtribuido = idAtribuido });
+            var contaAtribuinte = await AppContext.Contas.Where(tb => tb.Id == idAtribuinte).FirstOrDefaultAsync();
+            var contaAtribuido = await AppContext.Contas.Where(tb => tb.Id == idAtribuido).FirstOrDefaultAsync();
+
+            await AppContext.ChamadoSolicitacaoDal.AddAsync(new ChamadoSolicitacaoDal { Atribuinte = true, EmailDoAutor = contaAtribuinte.Email, NomeDoAutor = contaAtribuinte.Conta, IdChamado = idChamado, idTipoSolicitacao = 0, Mensagem = $"Chamado atribuido de {contaAtribuinte.Conta} para {contaAtribuido.Conta}" });
+
             await AppContext.SaveChangesAsync();
+        }
+
+        public async Task<List<ChamadoSolicitacaoDal>> ConsultarSolicitacaoChamado(int id)
+        {
+            var solicitacaoChamado = await AppContext.ChamadoSolicitacaoDal.Where(tb => tb.IdChamado == id).ToListAsync();
+            return solicitacaoChamado;
         }
 
 
