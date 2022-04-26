@@ -4,14 +4,16 @@ using Lib.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Lib.Data.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    partial class DataBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220424165225_Adicionado chamado solucao")]
+    partial class Adicionadochamadosolucao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,9 +111,6 @@ namespace Lib.Data.Migrations
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("EmailDoAutor")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IdChamado")
                         .HasColumnType("int");
@@ -288,9 +287,6 @@ namespace Lib.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("HoraDeConclusao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("HoraDeInicio")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("IdConta")
