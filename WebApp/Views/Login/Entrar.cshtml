@@ -12,9 +12,12 @@
 
         <label>Senha:</label>
         <input asp-for="Senha" type="password" placeholder="Digite a sua Senha" />
-        <button class="btn btn-success" type="submit">ENTRAR</button>
+
         <div asp-validation-summary="All"></div>
+
+        <button class="btn btn-success" type="submit">ENTRAR</button>
         <a asp-action="criar" asp-controller="login" class="ml-2 btn btn-secondary">CRIAR CONTA</a>
+
     </form>
 
 </div>

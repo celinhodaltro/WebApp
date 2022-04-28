@@ -4,13 +4,19 @@
     ViewData["Title"] = "Chamados";
 }
 
+
+@{
+    string cor;
+    cor = "";
+}
+
 <div class="row d-flex justify-content-center">
     @{
         if (Model.Projetos != null)
             foreach (var obj in Model.Projetos)
             {
                 <div class="col-@(2 + obj.Nome.Length/8) my-2">
-                    <a  asp-route-id="@obj.Id" class="btn btn-info form-control">@obj.Nome</a>
+                    <a asp-route-id="@obj.Id" class="btn btn-info form-control">@obj.Nome</a>
                 </div>
             }
         else
@@ -24,33 +30,41 @@
 <hr />
 
 <form method="post">
-    <table class="table mt-3">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Projeto</th>
-                <th>Status</th>
-                <th>Tipo</th>
-                <th>Prioridade</th>
-                <th>Acessar</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
+    @{
+        if (Model != null)
+            foreach (var Chamado in Model.Chamados)
+            {
+                <div class="card d-inline-block m-1" style="width: 32%;">
+                    <div class="card-body row">
+                            <div class="col-12">
+                                <h6 class="card-title">@Chamado.Nome</h6>
+                                <hr style="border-color:black;" class="my-2" />
+                            </div>
 
-                if (Model != null)
-                    foreach (var Chamado in Model.Chamados)
-                    {
-                        <tr>
-                            <td width="20%">@Chamado.Nome</td>
-                            <td width="15%">@(Chamado.NomeProjeto!=""?Chamado.NomeProjeto:"Nenhum")</td>
-                            <td width="20%">@((Lib.Enum.ChamadoStatus)Chamado.IdStatus)</td>
-                            <td width="20%">@((Lib.Enum.TipoDeChamadoEnum)Chamado.IdTipoChamado)</td>
-                            <td width="20%">@Chamado.Prioridade</td>
-                            <td width="5%"><button type="submit" class="form-control btn btn-success" asp-action="Chamado" asp-controller="Chamados" asp-route-Id="@Chamado.Id"><i class="fa-solid fa-arrow-right"></i></button></td>
-                        </tr>
-                    }
+                        <div class="col-12">
+                            <label>Descrição:</label>
+                        </div>
+                        <div class="col-12">
+                            <hr />
+                            <small class="card-subtitle mb-2 text-muted" style="height:100px;" title="@(Chamado.Desc.Length>=50? Chamado.Desc:"")">@(Chamado.Desc.Length>=50? Chamado.Desc.Substring(0,50) + "...":Chamado.Desc)</small>
+                            <hr />
+                        </div>
+                        <div class="col-12">
+                            <label>Nome do Projeto:</label>
+                            <small class="card-subtitle ml-2 text-muted" title="@(Chamado.NomeProjeto.Length>=15? Chamado.NomeProjeto:"")">@(Chamado.NomeProjeto.Length>=15? Chamado.NomeProjeto.Substring(0,15) + "...":Chamado.NomeProjeto)</small>
+                        </div>
+                        <div class="col-12">
+                            <label>Prioridade:</label>
+                            <small class="card-subtitle ml-2 text-muted">@((Lib.Enum.PrioridadeEnum)Chamado.Prioridade)</small>
+                        </div>
+                        <div class="col-12">
+                            <label>Tipo do Chamado:</label>
+                            <small class="card-subtitle ml-2 text-muted">@((Lib.Enum.TipoDeChamadoEnum)Chamado.IdTipoChamado)</small>
+                        </div>
+
+                        <button asp-action="Chamado" asp-controller="Chamados" asp-route-Id="@Chamado.Id" class="card-link btn btn-primary form-control my-2">Ir<i class="fa-solid fa-arrow-right ml-2"></i></button>
+                    </div>
+                </div>
             }
-        </tbody>
-    </table>
+    }
 </form>

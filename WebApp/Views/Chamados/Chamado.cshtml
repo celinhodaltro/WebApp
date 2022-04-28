@@ -4,33 +4,45 @@
 
 <form method="post">
     <div class="row d-flex justify-content-center">
-        <div class="col-2">
-            <textarea asp-for="Solicitar.Mensagem" cols="3"></textarea>
-            <select asp-for="Solicitar.idTipoSolicitacao"></select>
+        <div class="col-8">
+            <label>Mensagem:</label>
+            <textarea class="form-control" asp-for="Solicitar.Mensagem" rows="5" style="height:100px;"></textarea>
+        </div>
+        <div class="col-4">
+            <label>Tipo de Solicitação:</label>
+            <select asp-for="Solicitar.idTipoSolicitacao" class="form-control" asp-items="Html.GetEnumSelectList<Lib.Enum.TipoDeChamadoSolicitacaoEnum>()"></select>
+            <br />
             <a asp-action="SolicitacaoDeChamado" asp-controller="Chamados" class="btn btn-primary form-control">Solicitar</a>
         </div>
     </div>
-    <hr class="mb-2" />
 </form>
+
+<div class="text-center">
+    <hr style="border-color:black;" class="my-4" />
+    <h3>Historico de solicitações</h3>
+    <hr style="border-color:black;" class="my-4" />
+</div>
 
 @{
     if (Model.Solicitacoes != null)
         foreach (var obj in Model.Solicitacoes)
         {
-            var align = obj.Atribuinte ? "text-right" : "text-left";
-            <div class="@align">
-                <h3>@obj.NomeDoAutor</h3>
-                <small class="mb-2">@obj.EmailDoAutor</small>
-                <p>@obj.Mensagem</p>
-                @{ if (Model.Atribuinte && obj.idTipoSolicitacao != (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Acompanhamento)
-                    {
-                        <button class="btn btn-primary mt-2">Aceitar</button>
+            var align = obj.Atribuinte ? "left;" : "right;";
+            <div class="d-block">
+                <div style="text-align:@align !important">
+                    <h3>@obj.NomeDoAutor</h3>
+                    <small class="mb-2">@obj.EmailDoAutor</small>
+                    <p>@obj.Mensagem</p>
+                    @{ if (Model.Atribuinte && obj.idTipoSolicitacao != (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Acompanhamento)
+                        {
+                            <button class="btn btn-primary mt-2">Aceitar</button>
+                        }
                     }
-                }
 
-                <small>@((Lib.Enum.TipoDeChamadoSolicitacaoEnum)obj.idTipoSolicitacao)</small>
+                    <small>@((Lib.Enum.TipoDeChamadoSolicitacaoEnum)obj.idTipoSolicitacao)</small>
 
 
+                </div>
             </div>
             <hr />
         }

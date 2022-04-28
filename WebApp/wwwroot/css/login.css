@@ -33,6 +33,10 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+.validation-summary-errors {
+    background-color: darkred !important;
+}
+
 #card-create {
     width: 400px;
     margin-left: auto !important;
@@ -84,6 +88,6 @@ input {
     padding: 10px;
 }
 
-a{
-    color:white;
+a {
+    color: white;
 }
