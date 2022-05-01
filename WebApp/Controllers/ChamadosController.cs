@@ -40,6 +40,8 @@ namespace WebApp.Controllers
             ChamadoSolicitacaoPageDto chamadoSolicitacaoPageDto = new();
             chamadoSolicitacaoPageDto.Solicitacoes = await FacadeApplication.Chamado.ConsultarSolicitacaoChamado(id);
             chamadoSolicitacaoPageDto.Atribuinte = await FacadeApplication.Chamado.ChecarAtribuicao(Convert.ToInt32(User.Identity.Name), id, true);
+            var chamado = await FacadeApplication.Chamado.Consultar(id);
+            chamadoSolicitacaoPageDto.SolicitarAtivo = chamado.IdStatus < (int)Lib.Enum.ChamadoStatus.Aprovado? true: false;
 
             return View(chamadoSolicitacaoPageDto);
         }
@@ -69,11 +71,38 @@ namespace WebApp.Controllers
 
             await FacadeApplication.Chamado.AdicionarSolicitacao(chamadoSolicitacaoPageDto.Solicitar);
 
-            
+
             chamadoSolicitacaoPageDto.Solicitacoes = await FacadeApplication.Chamado.ConsultarSolicitacaoChamado(id);
             chamadoSolicitacaoPageDto.Atribuinte = await FacadeApplication.Chamado.ChecarAtribuicao(Convert.ToInt32(User.Identity.Name), id, true);
+            var chamado = await FacadeApplication.Chamado.Consultar(id);
+            chamadoSolicitacaoPageDto.SolicitarAtivo = chamado.IdStatus < (int)Lib.Enum.ChamadoStatus.Aprovado ? true : false;
 
             return View(chamadoSolicitacaoPageDto);
+        }
+
+
+        public async Task<IActionResult> AceitarSolicitacao(int id)
+        {
+            var Conta = await FacadeApplication.Conta.Consultar(Convert.ToInt32(User.Identity.Name));
+            await FacadeApplication.Chamado.AceitarSolicitacao(id, Conta);
+
+            return RedirectToAction("Index","Chamados");
+        }
+
+        public async Task<IActionResult> NegarChamado(int id)
+        {
+            var solicitacao = await FacadeApplication.Chamado.ConsultarSolicitacaoChamado(id, true);
+            return View(solicitacao);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> NegarChamado(int id, string mensagem)
+        {
+            var conta = await FacadeApplication.Conta.Consultar(id : Convert.ToInt32(User.Identity.Name));
+            await FacadeApplication.Chamado.RecusarSolicitacao(mensagem, conta, id);
+
+            return View();
         }
 
 

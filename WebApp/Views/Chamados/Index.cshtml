@@ -37,15 +37,16 @@
                 <div class="card d-inline-block m-1" style="width: 32%;">
                     <div class="card-body row">
                             <div class="col-12">
-                                <h6 class="card-title">@Chamado.Nome</h6>
+                                <h6 class="card-title">#@Chamado.Id - @Chamado.Nome</h6>
                                 <hr style="border-color:black;" class="my-2" />
                             </div>
 
+                            <div class="col-12">
+                                <hr />
+                                <label>Descrição:</label>
+                            </div>
                         <div class="col-12">
-                            <label>Descrição:</label>
-                        </div>
-                        <div class="col-12">
-                            <hr />
+
                             <small class="card-subtitle mb-2 text-muted" style="height:100px;" title="@(Chamado.Desc.Length>=50? Chamado.Desc:"")">@(Chamado.Desc.Length>=50? Chamado.Desc.Substring(0,50) + "...":Chamado.Desc)</small>
                             <hr />
                         </div>

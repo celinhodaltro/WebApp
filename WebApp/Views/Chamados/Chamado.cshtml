@@ -2,26 +2,46 @@
 
 @{
     ViewData["Title"] = "Chamado - Solicitações";
-    var tipoChamado = Html.GetEnumSelectList<Lib.Enum.TipoDeChamadoSolicitacaoEnum>();
+    var tipoChamado = Html.GetEnumSelectList<Lib.Enum.TipoDeChamadoSolicitacaoEnum>().Where(tb => Convert.ToInt32(tb.Value) < 4);
     if (Model.Atribuinte == true)
         tipoChamado = tipoChamado.Where(tb => tb.Value == Convert.ToString((int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Acompanhamento));
+
+    string DefinirCor(Lib.Enum.TipoDeChamadoSolicitacaoEnum enumerador)
+    {
+        if (enumerador == Lib.Enum.TipoDeChamadoSolicitacaoEnum.Aprovado)
+            return "alert-success";
+        if (enumerador == Lib.Enum.TipoDeChamadoSolicitacaoEnum.Arquivado)
+            return "alert-info";
+        if (enumerador == Lib.Enum.TipoDeChamadoSolicitacaoEnum.Recusado)
+            return "alert-danger";
+        if (enumerador == Lib.Enum.TipoDeChamadoSolicitacaoEnum.Encerrado)
+            return "alert-success";
+
+
+        return "";
+    }
+
+
 }
-
-<form method="post">
-    <div class="row d-flex justify-content-center">
-        <div class="col-8">
-            <label>Mensagem:</label>
-            <textarea class="form-control" asp-for="Solicitar.Mensagem" rows="5" style="height:100px;"></textarea>
-        </div>
-        <div class="col-4">
-            <label>Tipo de Solicitação:</label>
-            <select asp-for="Solicitar.idTipoSolicitacao" class="form-control" asp-items="tipoChamado"></select>
-            <br />
-            <button type="submit" class="btn btn-primary form-control">Solicitar</button>
-        </div>
-    </div>
-</form>
-
+@{
+    if (Model.SolicitarAtivo == true)
+    {
+        <form method="post">
+            <div class="row d-flex justify-content-center">
+                <div class="col-8">
+                    <label>Mensagem:</label>
+                    <textarea class="form-control" asp-for="Solicitar.Mensagem" rows="5" style="height:100px;"></textarea>
+                </div>
+                <div class="col-4">
+                    <label>Tipo de Solicitação:</label>
+                    <select asp-for="Solicitar.idTipoSolicitacao" class="form-control" asp-items="tipoChamado"></select>
+                    <br />
+                    <button type="submit" class="btn btn-primary form-control">Solicitar</button>
+                </div>
+            </div>
+        </form>
+    }
+}
 <div class="text-center">
     <hr style="border-color:black;" class="my-4" />
     <h3>Historico de solicitações</h3>
@@ -33,25 +53,34 @@
         if (Model.Solicitacoes != null)
             foreach (var obj in Model.Solicitacoes)
             {
-                var align = obj.Atribuinte ? "left" : "right";
-                var cor = obj.Atribuinte ? "bg-info;" : "";
-
-                <div class="col-12">
-                    <div class="card float-lg-@align col-4" ;>
-                        <div class="card-body" style="text-align:@align !important; border-radius: 3px 3px 3px 3px">
-                            <h5 class="card-title">@obj.NomeDoAutor</h5>
-                            <small class="card-subtitle mb-2 text-muted">@obj.EmailDoAutor</small>
-                            <hr class="my-1" style="border-color:black" />
-                            <p class="card-text">@obj.Mensagem.</p>
-                            @{
-                                if (Model.Atribuinte && obj.idTipoSolicitacao != (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Acompanhamento)
-                                {
-                                    <button class="btn btn-primary mt-2 card-link form-control">Aceitar Solicitação</button>
-                                }
-                            }
-                        </div>
+        <div class="col-12">
+            @{var align = obj.Atribuinte ? "left" : "right";}
+            @{var cor = DefinirCor((Lib.Enum.TipoDeChamadoSolicitacaoEnum)obj.idTipoSolicitacao);}
+            <div class="card float-lg-@align @cor col-6" ;>
+                <div class="card-body" style="text-align:@align !important; border-radius: 3px 3px 3px 3px">
+                    <h5 class="card-title">@obj.NomeDoAutor</h5>
+                    <small class="card-subtitle mb-2 text-muted">@obj.EmailDoAutor</small>
+                    <hr class="my-1" style="border-color:black" />
+                    <p class="card-text">@obj.Mensagem</p>
+                    <hr />
+                    <div class="text-center">
+                        <small class="card-subtitle">@((Lib.Enum.TipoDeChamadoSolicitacaoEnum)obj.idTipoSolicitacao)</small>
                     </div>
+                    @{
+                        if (Model.Atribuinte && obj.idTipoSolicitacao != (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Acompanhamento && Model.Atribuinte && obj.idTipoSolicitacao < (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Aprovado)
+                        {
+                            <hr class="my-2" />
+                            <div class="row d-flex justify-content-center">
+                                <div class="lg-6 btn-group">
+                                    <a asp-route-id="@obj.Id" asp-action="AceitarSolicitacao" asp-route-idTipo="@obj.Id" class="btn btn-success form-control">Aceitar</a>
+                                    <a asp-route-id="@obj.Id" asp-action="NegarChamado" asp-route-idTipo="@obj.Id" class="btn btn-danger form-control">Negar</a>
+                                </div>
+                            </div>
+                        }
+                    }
                 </div>
+            </div>
+        </div>
 
                 <div class="col-12 my-2">
                     <hr />

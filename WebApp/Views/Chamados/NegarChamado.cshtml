@@ -1,0 +1,19 @@
+﻿@model Lib.Data.ChamadoSolicitacaoDal
+
+
+@{
+    ViewData["Title"] = "Recusar Chamado";
+}
+
+    <form method="post">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12">
+                <label class="text-danger">Digite um motivo para recusar este chamado:</label>
+                <textarea class="form-control" name="Mensagem" rows="5" style="height:100px;"></textarea>
+                <hr />
+            </div>
+            <div class="col-4">
+                <button type="submit" class="btn btn-primary form-control">Solicitar</button>
+            </div>
+        </div>
+    </form>

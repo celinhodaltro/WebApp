@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using Lib.Enum;
+using System;
 
 namespace FacadeApp.Services
 {
@@ -83,11 +84,77 @@ namespace FacadeApp.Services
             return solicitacaoChamado;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Await.Warning", "CS4014:Await.Warning")]
+        public async Task<ChamadoSolicitacaoDal> ConsultarSolicitacaoChamado(int id, bool solicitacao)
+        {
+            var solicitacaoChamado = await AppContext.ChamadoSolicitacaoDal.Where(tb => tb.Id == id).FirstOrDefaultAsync();
+            return solicitacaoChamado;
+        }
+
         public async Task AdicionarSolicitacao(ChamadoSolicitacaoDal chamadoSolicitacaoDal)
         {
             await AppContext.AddAsync(chamadoSolicitacaoDal);
             await AppContext.SaveChangesAsync();
+        }
+
+        public async Task AceitarSolicitacao(int Id, ContaDal conta)
+        {
+            var solicitacao = await AppContext.ChamadoSolicitacaoDal.Where(tb => tb.Id == Id).FirstOrDefaultAsync();
+            var chamado = await AppContext.Chamados.Where(tb => tb.Id == solicitacao.IdChamado).FirstOrDefaultAsync();
+
+
+            ChamadoSolicitacaoDal chamadoSolicitacao = new ChamadoSolicitacaoDal
+            {
+                Atribuinte = true,
+                EmailDoAutor = conta.Email,
+                NomeDoAutor = conta.Conta,
+                IdChamado = chamado.Id,
+                Data = DateTime.Now
+            };
+
+
+            if (solicitacao.idTipoSolicitacao == (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Aprovacao) {
+                chamado.IdStatus = (int)Lib.Enum.ChamadoStatus.Aprovado;
+                chamadoSolicitacao.idTipoSolicitacao = (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Aprovado;
+            }
+            else if (solicitacao.idTipoSolicitacao == (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Arquivamento) { 
+                chamado.IdStatus = (int)Lib.Enum.ChamadoStatus.Arquivado;
+                chamadoSolicitacao.idTipoSolicitacao = (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Arquivado;
+            }
+            else if (solicitacao.idTipoSolicitacao == (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Encerramento) { 
+                chamado.IdStatus = (int)Lib.Enum.ChamadoStatus.Encerrado;
+                chamadoSolicitacao.idTipoSolicitacao = (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Encerrado;
+            }
+
+            chamadoSolicitacao.Mensagem = $"Este chamado foi {(Lib.Enum.TipoDeChamadoSolicitacaoEnum)chamadoSolicitacao.idTipoSolicitacao} por:  {conta.Conta}";
+
+
+            await AppContext.ChamadoSolicitacaoDal.AddAsync(chamadoSolicitacao);
+            await AppContext.SaveChangesAsync();
+        }
+
+        public async Task RecusarSolicitacao(string mensagem, ContaDal conta, int idSolicitacao)
+        {
+            var solicitacao = await AppContext.ChamadoSolicitacaoDal.Where(tb => tb.Id == idSolicitacao).FirstOrDefaultAsync();
+            var chamado = await Consultar(solicitacao.IdChamado);
+
+            chamado.IdStatus = (int)Lib.Enum.ChamadoStatus.Processando;
+
+
+            ChamadoSolicitacaoDal chamadoSolicitacao = new ChamadoSolicitacaoDal { 
+                idTipoSolicitacao = (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Recusado,
+                Mensagem = mensagem,
+                Atribuinte = true,
+                EmailDoAutor = conta.Email,
+                NomeDoAutor = conta.Conta,
+                IdChamado = solicitacao.IdChamado,
+                Data = DateTime.Now};
+
+
+            await AppContext.ChamadoSolicitacaoDal.AddAsync(chamadoSolicitacao);
+
+            await AppContext.SaveChangesAsync();
+                
+
         }
 
 

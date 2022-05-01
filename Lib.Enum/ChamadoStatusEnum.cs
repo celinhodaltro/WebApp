@@ -10,5 +10,7 @@ namespace Lib.Enum
         AguardandoAprovado = 4,
         Aprovado = 5,
         Recusado = 6,
+        Arquivado = 7,
+        Encerrado = 7,
     }
 }

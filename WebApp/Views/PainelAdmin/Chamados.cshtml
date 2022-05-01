@@ -5,42 +5,53 @@
 }
 
 <div class="row d-flex justify-content-center">
-            <div class="col-2">
-                <a asp-action="CriarChamado" asp-controller="PainelAdmin" class="btn btn-info form-control">Criar Chamado</a>
-            </div>
+    <div class="col-2">
+        <a asp-action="CriarChamado" asp-controller="PainelAdmin" class="btn btn-info form-control">Criar Chamado</a>
+    </div>
 </div>
 <hr />
 
-<form method="post">
-    <table class="table mt-3">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Projeto</th>
-                <th>Status</th>
-                <th>Tipo</th>
-                <th>Prioridade</th>
-                <th>Atribuir</th>
-                <th>Acessar</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
 
-                if (Model != null)
-                    foreach (var Chamado in Model)
-                    {
-                        <tr>
-                            <td width="20%">@Chamado.Nome</td>
-                            <td width="15%">@(Chamado.NomeProjeto!=""?Chamado.NomeProjeto:"Nenhum")</td>
-                            <td width="20%">@((Lib.Enum.ChamadoStatus)Chamado.IdStatus)</td>
-                            <td width="20%">@((Lib.Enum.TipoDeChamadoEnum)Chamado.IdTipoChamado)</td>
-                            <td width="10%">@((Lib.Enum.PrioridadeEnum)Chamado.Prioridade)</td>
-                            <td width="5%"><button type="submit" class="form-control btn btn-primary" formmethod="get" asp-action="AtribuirChamado" asp-controller="PainelAdmin" asp-route-Id="@Chamado.Id"><i class="fa-solid fa-pen-clip"></i></button></td>
-                            <td width="5%"><button type="submit" class="form-control btn btn-success" asp-action="Chamados" asp-controller="PainelAdmin" asp-route-IdProjeto="@Chamado.Id"><i class="fa-solid fa-arrow-right"></i></button></td>
-                        </tr>
-                    }
+<form method="post">
+    @{
+        if (Model != null)
+            foreach (var Chamado in Model)
+            {
+                <div class="card d-inline-block m-1" style="width: 32%;">
+                    <div class="card-body row">
+                        <div class="col-12">
+                            <h6 class="card-title">#@Chamado.Id - @Chamado.Nome</h6>
+                            <hr style="border-color:black;" class="my-2" />
+                        </div>
+
+                        <div class="col-12">
+                            <label>Descrição:</label>
+                        </div>
+                        <div class="col-12">
+                            <hr />
+                            <small class="card-subtitle mb-2 text-muted" style="height:100px;" title="@(Chamado.Desc.Length>=50? Chamado.Desc:"")">@(Chamado.Desc.Length>=50? Chamado.Desc.Substring(0,50) + "...":Chamado.Desc)</small>
+                            <hr />
+                        </div>
+                        <div class="col-12">
+                            <label>Nome do Projeto:</label>
+                            <small class="card-subtitle ml-2 text-muted" title="@(Chamado.NomeProjeto.Length>=15? Chamado.NomeProjeto:"")">@(Chamado.NomeProjeto.Length>=15? Chamado.NomeProjeto.Substring(0,15) + "...":Chamado.NomeProjeto)</small>
+                        </div>
+                        <div class="col-12">
+                            <label>Prioridade:</label>
+                            <small class="card-subtitle ml-2 text-muted">@((Lib.Enum.PrioridadeEnum)Chamado.Prioridade)</small>
+                        </div>
+                        <div class="col-12">
+                            <label>Tipo do Chamado:</label>
+                            <small class="card-subtitle ml-2 text-muted">@((Lib.Enum.TipoDeChamadoEnum)Chamado.IdTipoChamado)</small>
+                        </div>
+                        <div class="btn-group col-12">
+                            <a type="submit" class="form-control btn btn-primary" asp-action="AtribuirChamado" asp-controller="PainelAdmin" asp-route-Id="@Chamado.Id"><i class="fa-solid fa-pen-clip"></i></a>
+                            <button class="btn btn-danger form-control" asp-action="ExcluirChamado" asp-controller="PainelAdmin" asp-route-id="@Chamado.Id"><i class="fa-solid fa-xmark"></i></button>
+                            <a formmethod="get" class="form-control btn btn-success form-control" asp-action="Chamado" asp-controller="Chamados" asp-route-id="@Chamado.Id"><i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
             }
-        </tbody>
-    </table>
+    }
 </form>

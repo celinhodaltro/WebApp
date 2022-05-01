@@ -11,6 +11,7 @@ namespace Lib.Dto
     {
         public List<Lib.Data.ChamadoSolicitacaoDal> Solicitacoes { get; set; }
         public ChamadoSolicitacaoDal Solicitar { get; set; }
+        public bool SolicitarAtivo { get; set; }
         public bool Atribuinte { get; set; }
     }
 }
