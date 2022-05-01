@@ -67,7 +67,10 @@
                         <small class="card-subtitle">@((Lib.Enum.TipoDeChamadoSolicitacaoEnum)obj.idTipoSolicitacao)</small>
                     </div>
                     @{
-                        if (Model.Atribuinte && obj.idTipoSolicitacao != (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Acompanhamento && Model.Atribuinte && obj.idTipoSolicitacao < (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Aprovado)
+                        if ((Model.Atribuinte) 
+                            && (obj.idTipoSolicitacao != (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Acompanhamento) 
+                            && (Model.Atribuinte && obj.idTipoSolicitacao < (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Aprovado)
+                            && (!obj.Processado))
                         {
                             <hr class="my-2" />
                             <div class="row d-flex justify-content-center">

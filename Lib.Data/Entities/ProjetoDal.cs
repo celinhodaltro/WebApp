@@ -10,7 +10,6 @@ namespace Lib.Data
     public class ProjetoDal : BaseDal
     {
 
-        [MaxLengthAttribute(27)]
         public string Nome { get; set; }
         public string Desc { get; set; }
         public int Prioridade { get; set; }

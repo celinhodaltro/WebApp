@@ -15,5 +15,6 @@ namespace Lib.Data
         public bool Atribuinte { get; set; }
         public string NomeDoAutor { get; set; }
         public string EmailDoAutor { get; set; } = "";
+        public bool Processado { get; set; } = false;
     }
 }

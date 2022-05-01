@@ -2,29 +2,24 @@
 
 @{
     ViewData["Title"] = "Chamados";
+    var cor = Html.ViewContext.HttpContext.Request.RouteValues["Id"] != null ? "btn-info" : "btn-primary";
 }
 
-
-@{
-    string cor;
-    cor = "";
-}
 
 <div class="row d-flex justify-content-center">
     @{
         if (Model.Projetos != null)
             foreach (var obj in Model.Projetos)
             {
+                var selecionado = obj.Id == Convert.ToInt32(Html.ViewContext.HttpContext.Request.RouteValues["Id"])? "btn-primary":"btn-info";
                 <div class="col-@(2 + obj.Nome.Length/8) my-2">
-                    <a asp-route-id="@obj.Id" class="btn btn-info form-control">@obj.Nome</a>
+                    <a asp-route-id="@obj.Id" class="btn @selecionado form-control">@obj.Nome</a>
                 </div>
             }
-        else
-        {
             <div class="col-2">
-                <a asp-action="Index" class="btn btn-primary form-control">Voltar</a>
+                <a asp-action="Index" asp-route-id="@null" class="btn form-control my-2 @cor" >Todos</a>
             </div>
-        }
+
     }
 </div>
 <hr />

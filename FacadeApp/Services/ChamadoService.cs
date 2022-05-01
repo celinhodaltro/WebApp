@@ -101,6 +101,7 @@ namespace FacadeApp.Services
             var solicitacao = await AppContext.ChamadoSolicitacaoDal.Where(tb => tb.Id == Id).FirstOrDefaultAsync();
             var chamado = await AppContext.Chamados.Where(tb => tb.Id == solicitacao.IdChamado).FirstOrDefaultAsync();
 
+            solicitacao.Processado = true;
 
             ChamadoSolicitacaoDal chamadoSolicitacao = new ChamadoSolicitacaoDal
             {
@@ -135,6 +136,7 @@ namespace FacadeApp.Services
         public async Task RecusarSolicitacao(string mensagem, ContaDal conta, int idSolicitacao)
         {
             var solicitacao = await AppContext.ChamadoSolicitacaoDal.Where(tb => tb.Id == idSolicitacao).FirstOrDefaultAsync();
+            solicitacao.Processado = true;
             var chamado = await Consultar(solicitacao.IdChamado);
 
             chamado.IdStatus = (int)Lib.Enum.ChamadoStatus.Processando;
