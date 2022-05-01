@@ -1,6 +1,11 @@
 ﻿@model Lib.Dto.ChamadoSolicitacaoPageDto
 
-
+@{
+    ViewData["Title"] = "Chamado - Solicitações";
+    var tipoChamado = Html.GetEnumSelectList<Lib.Enum.TipoDeChamadoSolicitacaoEnum>();
+    if (Model.Atribuinte == true)
+        tipoChamado = tipoChamado.Where(tb => tb.Value == Convert.ToString((int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Acompanhamento));
+}
 
 <form method="post">
     <div class="row d-flex justify-content-center">
@@ -10,9 +15,9 @@
         </div>
         <div class="col-4">
             <label>Tipo de Solicitação:</label>
-            <select asp-for="Solicitar.idTipoSolicitacao" class="form-control" asp-items="Html.GetEnumSelectList<Lib.Enum.TipoDeChamadoSolicitacaoEnum>()"></select>
+            <select asp-for="Solicitar.idTipoSolicitacao" class="form-control" asp-items="tipoChamado"></select>
             <br />
-            <a asp-action="SolicitacaoDeChamado" asp-controller="Chamados" class="btn btn-primary form-control">Solicitar</a>
+            <button type="submit" class="btn btn-primary form-control">Solicitar</button>
         </div>
     </div>
 </form>
@@ -23,28 +28,37 @@
     <hr style="border-color:black;" class="my-4" />
 </div>
 
-@{
-    if (Model.Solicitacoes != null)
-        foreach (var obj in Model.Solicitacoes)
-        {
-            var align = obj.Atribuinte ? "left;" : "right;";
-            <div class="d-block">
-                <div style="text-align:@align !important">
-                    <h3>@obj.NomeDoAutor</h3>
-                    <small class="mb-2">@obj.EmailDoAutor</small>
-                    <p>@obj.Mensagem</p>
-                    @{ if (Model.Atribuinte && obj.idTipoSolicitacao != (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Acompanhamento)
-                        {
-                            <button class="btn btn-primary mt-2">Aceitar</button>
-                        }
-                    }
+<div class="row">
+    @{
+        if (Model.Solicitacoes != null)
+            foreach (var obj in Model.Solicitacoes)
+            {
+                var align = obj.Atribuinte ? "left" : "right";
+                var cor = obj.Atribuinte ? "bg-info;" : "";
 
-                    <small>@((Lib.Enum.TipoDeChamadoSolicitacaoEnum)obj.idTipoSolicitacao)</small>
-
-
+                <div class="col-12">
+                    <div class="card float-lg-@align col-4" ;>
+                        <div class="card-body" style="text-align:@align !important; border-radius: 3px 3px 3px 3px">
+                            <h5 class="card-title">@obj.NomeDoAutor</h5>
+                            <small class="card-subtitle mb-2 text-muted">@obj.EmailDoAutor</small>
+                            <hr class="my-1" style="border-color:black" />
+                            <p class="card-text">@obj.Mensagem.</p>
+                            @{
+                                if (Model.Atribuinte && obj.idTipoSolicitacao != (int)Lib.Enum.TipoDeChamadoSolicitacaoEnum.Acompanhamento)
+                                {
+                                    <button class="btn btn-primary mt-2 card-link form-control">Aceitar Solicitação</button>
+                                }
+                            }
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <hr />
-        }
 
-}
+                <div class="col-12 my-2">
+                    <hr />
+                </div>
+
+
+            }
+
+    }
+</div>

@@ -45,6 +45,38 @@ namespace WebApp.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> Chamado(int id, ChamadoSolicitacaoPageDto chamadoSolicitacaoPageDto)
+        {
+
+
+            var idConta = Convert.ToInt32(User.Identity.Name);
+            var Conta = await FacadeApplication.Conta.Consultar(id: idConta);
+
+            chamadoSolicitacaoPageDto.Solicitar.IdChamado = id;
+            chamadoSolicitacaoPageDto.Solicitar.NomeDoAutor = Conta.Conta;
+            chamadoSolicitacaoPageDto.Solicitar.EmailDoAutor = Conta.Email;
+            chamadoSolicitacaoPageDto.Solicitar.Data = DateTime.Now;
+            
+
+
+            var ContasAtribuintes = await FacadeApplication.Conta.ConsultarUsuariosDoChamado(idConta, atribuinte: true);
+            foreach (var ContaAtribuinte in ContasAtribuintes)
+                if (ContaAtribuinte.Id == idConta)
+                    chamadoSolicitacaoPageDto.Solicitar.Atribuinte = true;
+
+
+
+            await FacadeApplication.Chamado.AdicionarSolicitacao(chamadoSolicitacaoPageDto.Solicitar);
+
+            
+            chamadoSolicitacaoPageDto.Solicitacoes = await FacadeApplication.Chamado.ConsultarSolicitacaoChamado(id);
+            chamadoSolicitacaoPageDto.Atribuinte = await FacadeApplication.Chamado.ChecarAtribuicao(Convert.ToInt32(User.Identity.Name), id, true);
+
+            return View(chamadoSolicitacaoPageDto);
+        }
+
+
 
     }
 }

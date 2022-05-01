@@ -32,7 +32,7 @@ namespace FacadeApp.Services
             else
                 chamadoConta = await AppContext.ChamadoConta.Where(tb => tb.IdContaAtribuido == idConta && tb.IdChamado == idChamado).ToListAsync();
 
-            if (chamadoConta != null)
+            if (chamadoConta.Count != 0)
                 resultado = true;
 
             return resultado;
@@ -79,8 +79,15 @@ namespace FacadeApp.Services
 
         public async Task<List<ChamadoSolicitacaoDal>> ConsultarSolicitacaoChamado(int id)
         {
-            var solicitacaoChamado = await AppContext.ChamadoSolicitacaoDal.Where(tb => tb.IdChamado == id).ToListAsync();
+            var solicitacaoChamado = await AppContext.ChamadoSolicitacaoDal.Where(tb => tb.IdChamado == id).OrderByDescending(tb => tb.Data).ToListAsync();
             return solicitacaoChamado;
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Await.Warning", "CS4014:Await.Warning")]
+        public async Task AdicionarSolicitacao(ChamadoSolicitacaoDal chamadoSolicitacaoDal)
+        {
+            await AppContext.AddAsync(chamadoSolicitacaoDal);
+            await AppContext.SaveChangesAsync();
         }
 
 

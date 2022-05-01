@@ -62,7 +62,7 @@
                             <small class="card-subtitle ml-2 text-muted">@((Lib.Enum.TipoDeChamadoEnum)Chamado.IdTipoChamado)</small>
                         </div>
 
-                        <button asp-action="Chamado" asp-controller="Chamados" asp-route-Id="@Chamado.Id" class="card-link btn btn-primary form-control my-2">Ir<i class="fa-solid fa-arrow-right ml-2"></i></button>
+                        <button formmethod="get" asp-action="Chamado" asp-controller="Chamados" asp-route-Id="@Chamado.Id" class="card-link btn btn-primary form-control my-2">Ir<i class="fa-solid fa-arrow-right ml-2"></i></button>
                     </div>
                 </div>
             }

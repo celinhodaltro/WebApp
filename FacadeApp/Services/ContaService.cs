@@ -77,7 +77,7 @@ namespace FacadeApp.Services
                 .FirstOrDefaultAsync();
         }
 
-        public ContaDal Validar(NovaContaDto conta)
+        public async Task<ContaDal> Validar(NovaContaDto conta)
         {
             if (conta.Conta.Length <= 3)
                 throw new Exception("Os digitos da conta devem ser superior a 3 digitos");
@@ -88,7 +88,11 @@ namespace FacadeApp.Services
             if (conta.Email.Length <= 4)
                 throw new Exception("Email invalido.");
 
-            if (Consultar(conta.Id, conta.Conta, conta.Email, conta.Senha) != null)
+            var Conta = await AppContext.Contas
+                .Where(tb=> tb.Conta == conta.Conta || tb.Email == conta.Email)
+                .FirstOrDefaultAsync();
+
+            if (Conta != null)
                 throw new Exception("Está conta já existe.");
 
 
@@ -98,7 +102,7 @@ namespace FacadeApp.Services
 
         public async Task CriarConta(NovaContaDto conta)
         {
-            var novaconta = Validar(conta);
+            var novaconta = await Validar(conta);
             await AppContext.Contas.AddAsync(novaconta);
             await AppContext.SaveChangesAsync();
         }

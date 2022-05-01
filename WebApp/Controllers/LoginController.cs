@@ -57,10 +57,10 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Criar(NovaContaDto novaconta)
+        public async Task<IActionResult> Criar(NovaContaDto novaconta)
         {
             ViewData["Entrar"] = true;
-            FacadeApplication.Conta.CriarConta(novaconta);
+            await FacadeApplication.Conta.CriarConta(novaconta);
             return View();
         }
 
